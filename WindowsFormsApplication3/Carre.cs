@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace WindowsFormsApplication3
 {
@@ -21,11 +22,15 @@ namespace WindowsFormsApplication3
         }
 
 
-        public override bool Tourner()
+        public override void Tourner()
+        {
+            
+        }
+
+        public override bool peuxTourner(int direction)
         {
             return true;
         }
-
         public void initialiserPiece() // Dessine la piece au départ
         {
             for (int i = 0; i < hauteurPiece; i++)

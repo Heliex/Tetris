@@ -27,39 +27,68 @@ namespace WindowsFormsApplication3
                 }
                 initialiserPiece();
             }
-            public override bool Tourner()
+            public override void Tourner()
             {
-                bool aTourner = false;
                 decolorerPiece();
                 switch (sens)
                 {
-                    case 0: // Vers le haut
+                    case 0: 
                         for (int i = 0; i < hauteurPiece; i++)
                         {
                             for (int j = 0; j < largeurPiece; j++)
                             {
-                                if (j == 2)
+                                if ((i == 0 && j == 2) || (i == 1 && j > 1) || (i == 2 && j == 2))
                                 {
                                     representation[j, i].estColore = true;
                                 }
                             }
                         }
                         sens++;
-                        aTourner = true;
                         break;
-                    case 1: // Vers le bas
+
+                    case 1: // Vers le haut
+                        for (int i = 0; i < hauteurPiece; i++)
+                        {
+                            for (int j = 0; j < largeurPiece; j++)
+                            {
+                                if ((i == 0 && j == 2) || (i == 1 && j > 0))
+                                {
+                                    representation[j, i].estColore = true;
+                                }
+                            }
+                        }
+                    sens++;
+                    break;
+
+                    case 2: // Vers le haut
+                        for (int i = 0; i < hauteurPiece; i++)
+                        {
+                            for (int j = 0; j < largeurPiece; j++)
+                            {
+                                if ((i == 0 && j == 2) || (i == 1 && j > 0 && j < 3) || (i == 2 && j == 2))
+                                {
+                                    representation[j, i].estColore = true;
+                                }
+                            }
+                        }
+                        sens++;
+                        break;
+                    case 3:
                         initialiserPiece();
                         sens = 0;
-                        aTourner = true;
                         break;
                     default:
-                        aTourner = false;
                         break;
                 }
-                return aTourner;
             }
 
-            public void initialiserPiece() // Dessine la piece au départ
+
+        public override bool peuxTourner(int direction)
+        {
+          return true;
+        }  
+        
+        public void initialiserPiece() // Dessine la piece au départ
             {
                 for (int i = 0; i < hauteurPiece; i++)
                 {

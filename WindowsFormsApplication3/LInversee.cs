@@ -25,9 +25,8 @@ namespace WindowsFormsApplication3
             }
             initialiserPiece();
         }
-        public override bool Tourner()
+        public override void Tourner()
         {
-            bool aTourner = true;
             decolorerPiece();
             switch (sens)
             {
@@ -80,10 +79,13 @@ namespace WindowsFormsApplication3
                     sens = 0;
                     break;
                 default:
-                    aTourner = false;
                     break;
             }
-            return aTourner;
+        }
+
+        public override bool peuxTourner(int direction)
+        {
+           return true;
         }
 
         public void initialiserPiece() // Dessine la piece au départ

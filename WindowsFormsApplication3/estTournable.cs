@@ -8,6 +8,7 @@ namespace WindowsFormsApplication3
 {
     interface estTournable
     {
-       bool Tourner();
+       void Tourner();
+       bool peuxTourner(int direction);
     }
 }

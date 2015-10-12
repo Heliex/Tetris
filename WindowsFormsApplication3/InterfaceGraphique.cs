@@ -56,7 +56,7 @@ namespace WindowsFormsApplication3
             {
                 jeu.pieceCourante.deplacer(1);
             }
-            if(keyData.KeyCode == Keys.S)
+            if(keyData.KeyCode == Keys.Q)
             {
                 jeu.pieceCourante.deplacer(-1);
             }

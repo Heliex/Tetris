@@ -26,13 +26,15 @@ namespace WindowsFormsApplication3
             }
             initialiserPiece();
         }
-        public override bool Tourner()
+
+        public override void Tourner()
         {
-            bool aTourner = false;
                decolorerPiece();
                 switch (sens)
                 {
                     case 0: // Vers le haut
+                    if(peuxTourner(0))
+                    {
                         for (int i = 0; i < hauteurPiece; i++)
                         {
                             for (int j = 0; j < largeurPiece; j++)
@@ -44,18 +46,24 @@ namespace WindowsFormsApplication3
                             }
                         }
                         sens++;
-                        aTourner = true;
-                        break;
+                    }  
+                    break;
                     case 1: // Vers le bas
+                    if(peuxTourner(1))
+                    {
                         initialiserPiece();
                         sens = 0;
-                        aTourner = true;
-                        break;
+                    }
+                    break;
                     default:
-                        aTourner = false;
+
                         break;
                 }
-            return aTourner;
+        }
+
+        public override bool peuxTourner(int direction)
+        {
+            return true;
         }
 
         public void initialiserPiece() // Dessine la piece au départ

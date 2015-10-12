@@ -25,9 +25,8 @@ namespace WindowsFormsApplication3
             }
             initialiserPiece();
         }
-        public override bool Tourner()
+        public override void Tourner()
         {
-            bool aTourner = true;
             decolorerPiece();
             switch (sens)
             {
@@ -39,7 +38,7 @@ namespace WindowsFormsApplication3
                             if ((i == 0 && j == 3) || (i == 1 && j > 0))
                             {
                                 Case c = representation[j, i];
-                                if (!Jeu.plateau[j, i].estColore)
+                                if (!Jeu.plateau[c.x, c.y].estColore)
                                 {
                                     representation[j, i].estColore = true;
                                 }
@@ -57,7 +56,7 @@ namespace WindowsFormsApplication3
                             if (((i == 0 || i == 1 || i == 2) && j == 2) || (i == 2 && j == 3))
                             {
                                 Case c = representation[j, i];
-                                if (!Jeu.plateau[j, i].estColore)
+                                if (!Jeu.plateau[c.x, c.y].estColore)
                                 {
                                     representation[j, i].estColore = true;
                                 }
@@ -92,10 +91,13 @@ namespace WindowsFormsApplication3
                     sens = 0;
                     break;
                 default:
-                    aTourner = false;
                     break;
             }
-            return aTourner;
+        }
+
+        public override bool peuxTourner(int direction)
+        {
+            return true;
         }
 
         public void initialiserPiece() // Dessine la piece au départ

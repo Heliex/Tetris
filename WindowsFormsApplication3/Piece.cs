@@ -12,15 +12,15 @@ namespace WindowsFormsApplication3
         public Color couleur;
         public Case[,] representation;
 
-       
- 
+
+
         public void decolorerPiece()
         {
             for (int i = 0; i < hauteurPiece; i++)
             {
                 for (int j = 0; j < largeurPiece; j++)
                 {
-                    if(representation[j,i].estColore)
+                    if (representation[j, i].estColore)
                     {
                         representation[j, i].estColore = false;
                     }
@@ -28,19 +28,20 @@ namespace WindowsFormsApplication3
             }
         }
 
-        abstract public bool Tourner();
+        abstract public void Tourner();
+        abstract public bool peuxTourner(int direction);
 
         public void draw(Graphics g)
         {
-            for(int i = 0; i < hauteurPiece; i++)
+            for (int i = 0; i < hauteurPiece; i++)
             {
-                for(int j = 0; j < largeurPiece; j++)
+                for (int j = 0; j < largeurPiece; j++)
                 {
-                    if(representation[j,i].estColore)
+                    if (representation[j, i].estColore)
                     {
                         //Dessiner tous les rectangles
                         SolidBrush brush = new SolidBrush(this.couleur);
-                        g.FillRectangle(brush, new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase, representation[j, i].y * Jeu.TailleCase), new Size(32,32)));
+                        g.FillRectangle(brush, new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase, representation[j, i].y * Jeu.TailleCase), new Size(32, 32)));
                         g.DrawRectangle(new Pen(Color.Black), new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase, representation[j, i].y * Jeu.TailleCase), new Size(32, 32)));
                     }
                 }
@@ -50,13 +51,13 @@ namespace WindowsFormsApplication3
         public bool PeuxDescendre()
         {
             // Parcours de la piece
-            for(int i = 0; i < hauteurPiece; i++)
+            for (int i = 0; i < hauteurPiece; i++)
             {
-                for(int j = 0; j < largeurPiece; j++)
+                for (int j = 0; j < largeurPiece; j++)
                 {
-                    if(representation[j,i].estColore)
+                    if (representation[j, i].estColore)
                     {
-                        if(representation[j,i].y >= Jeu.NB_CASE_HAUTEUR - 1 || Jeu.plateau[representation[j,i].x,representation[j,i].y + 1].estColore)
+                        if (representation[j, i].y >= Jeu.NB_CASE_HAUTEUR - 1 || Jeu.plateau[representation[j, i].x, representation[j, i].y + 1].estColore)
                         {
                             return false;
                         }
@@ -68,37 +69,61 @@ namespace WindowsFormsApplication3
 
         public void descendre()
         {
-            for(int i = 0; i < hauteurPiece; i++)
+            for (int i = 0; i < hauteurPiece; i++)
             {
-                for(int j = 0; j < largeurPiece; j++)
+                for (int j = 0; j < largeurPiece; j++)
                 {
-                  representation[j,i].y++;
+                    representation[j, i].y++;
                 }
             }
         }
 
         public void deplacer(int direction)
         {
-            if(direction == -1)
+            if (peuxDeplacer(direction))
             {
-                for(int i = 0; i < hauteurPiece; i++)
+                if (direction == -1)
                 {
-                    for(int j = 0; j < largeurPiece; j++)
+                    for (int i = 0; i < hauteurPiece; i++)
                     {
-                        representation[j, i].x--;
+                        for (int j = 0; j < largeurPiece; j++)
+                        {
+                            representation[j, i].x--;
+                        }
+                    }
+                }
+                else if (direction == 1)
+                {
+                    for (int i = 0; i < hauteurPiece; i++)
+                    {
+                        for (int j = 0; j < largeurPiece; j++)
+                        {
+                            representation[j, i].x++;
+                        }
                     }
                 }
             }
-            else
+        }
+
+        public bool peuxDeplacer(int direction)
+        {
+            for (int i = 0; i < hauteurPiece; i++)
             {
-                for (int i = 0; i < hauteurPiece; i++)
+                for (int j = 0; j < largeurPiece; j++)
                 {
-                    for (int j = 0; j < largeurPiece; j++)
+                    Case c = representation[j, i];
+                    if (c.estColore)
                     {
-                        representation[j, i].x++;
+                        if ((c.x + direction < 0 || c.x + direction > Jeu.NB_CASE_LARGEUR - 1) || (Jeu.plateau[c.x + direction, c.y].estColore))
+                        {
+                            return false;
+                        }
+
                     }
                 }
             }
+
+            return true;
         }
     }
 }
