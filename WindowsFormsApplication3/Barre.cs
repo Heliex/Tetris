@@ -29,12 +29,12 @@ namespace WindowsFormsApplication3
 
         public override void Tourner()
         {
-               decolorerPiece();
                 switch (sens)
                 {
                     case 0: // Vers le haut
                     if(peuxTourner(0))
                     {
+                        decolorerPiece();
                         for (int i = 0; i < hauteurPiece; i++)
                         {
                             for (int j = 0; j < largeurPiece; j++)
@@ -51,6 +51,7 @@ namespace WindowsFormsApplication3
                     case 1: // Vers le bas
                     if(peuxTourner(1))
                     {
+                        decolorerPiece();
                         initialiserPiece();
                         sens = 0;
                     }
@@ -63,6 +64,41 @@ namespace WindowsFormsApplication3
 
         public override bool peuxTourner(int direction)
         {
+            switch(direction)
+            {
+                case 0:
+                    for (int i = 0; i < hauteurPiece; i++)
+                    {
+                        for (int j = 0; j < largeurPiece; j++)
+                        {
+                            if (j == 2)
+                            {
+                                Case c = representation[j, i];
+                                if(c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 1:
+                    for (int i = 0; i < hauteurPiece; i++)
+                    {
+                        for (int j = 0; j < largeurPiece; j++)
+                        {
+                            if (i == 1)
+                            {
+                                Case c = representation[j, i];
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
             return true;
         }
 

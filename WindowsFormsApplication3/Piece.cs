@@ -82,24 +82,11 @@ namespace WindowsFormsApplication3
         {
             if (peuxDeplacer(direction))
             {
-                if (direction == -1)
+                for (int i = 0; i < hauteurPiece; i++)
                 {
-                    for (int i = 0; i < hauteurPiece; i++)
+                    for (int j = 0; j < largeurPiece; j++)
                     {
-                        for (int j = 0; j < largeurPiece; j++)
-                        {
-                            representation[j, i].x--;
-                        }
-                    }
-                }
-                else if (direction == 1)
-                {
-                    for (int i = 0; i < hauteurPiece; i++)
-                    {
-                        for (int j = 0; j < largeurPiece; j++)
-                        {
-                            representation[j, i].x++;
-                        }
+                        representation[j, i].x = representation[j, i].x + direction;
                     }
                 }
             }
