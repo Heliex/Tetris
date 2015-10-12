@@ -56,7 +56,10 @@ namespace WindowsFormsApplication3
                 {
                     if(representation[j,i].estColore)
                     {
-
+                        if(representation[j,i].y >= Jeu.NB_CASE_HAUTEUR - 1 || Jeu.plateau[representation[j,i].x,representation[j,i].y + 1].estColore)
+                        {
+                            return false;
+                        }
                     }
                 }
             }
@@ -76,7 +79,26 @@ namespace WindowsFormsApplication3
 
         public void deplacer(int direction)
         {
-
+            if(direction == -1)
+            {
+                for(int i = 0; i < hauteurPiece; i++)
+                {
+                    for(int j = 0; j < largeurPiece; j++)
+                    {
+                        representation[j, i].x--;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < hauteurPiece; i++)
+                {
+                    for (int j = 0; j < largeurPiece; j++)
+                    {
+                        representation[j, i].x++;
+                    }
+                }
+            }
         }
     }
 }
