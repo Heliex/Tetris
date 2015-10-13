@@ -28,7 +28,7 @@ namespace WindowsFormsApplication3
             jeu.RaiseCustomEvent += HandleCustomEvent;
             KeyDown += new KeyEventHandler(MyKeyPressedEventHandler);
             new Debug(jeu).Show();
-            panel1.BackgroundImage = Image.FromFile("C:\\Users\\Christophe\\Pictures\\fondTetris.jpg");
+            panel1.BackgroundImage = Image.FromFile("Images/fondTetris.jpg");
         }
 
         public void HandleCustomEvent(Object sender, RafraichirGUIEvent e)
@@ -62,9 +62,6 @@ namespace WindowsFormsApplication3
             if(jeu.estPerdu) // SI on est gameOver
             {
                 KeyDown -= MyKeyPressedEventHandler;
-                label2.Text = "Game Over";
-                label2.Visible = true;
-                label2.Show();
             }
         }
 
@@ -95,7 +92,7 @@ namespace WindowsFormsApplication3
                 jeu.estPerdu = true;
                 this.Close();
             }
-            if(keyData.KeyCode == Keys.S)
+            if(keyData.KeyCode == Keys.S || keyData.KeyCode == Keys.Down)
             {
                 if(jeu.pieceCourante.PeuxDescendre())
                 {

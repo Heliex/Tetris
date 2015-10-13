@@ -51,7 +51,7 @@ namespace WindowsFormsApplication3
             plateau = new Case[NB_CASE_HAUTEUR, NB_CASE_LARGEUR];
             estPerdu = false;
             waveOutDevice = new WaveOut();
-            audioFileReader = new AudioFileReader("C:\\Users\\Christophe\\Music\\Tetris.mp3");
+            audioFileReader = new AudioFileReader("Musiques/Tetris.mp3");
             waveOutDevice.Init(audioFileReader);
             waveOutDevice.Play();
             for (int i = 0; i < NB_CASE_HAUTEUR; i++)
@@ -80,7 +80,7 @@ namespace WindowsFormsApplication3
                 double palier = Math.Round(COMPTEUR_LIGNE_COMPLETE / 10.0) * 10;
                 Thread.Sleep(intervalle[palier]);
                 int lastTick = System.Environment.TickCount;
-               
+
                 OnRaiseCustomEvent(new RafraichirGUIEvent()); // Rafraichissement du GUI
                 if (pieceCourante.PeuxDescendre()) // Si la piece peux descendre
                 {
@@ -101,17 +101,23 @@ namespace WindowsFormsApplication3
                         }
                     }
                 }
-                else if(gameOver())
+                else if (gameOver())
                 {
                     pieceCourante.decolorerPiece();
                     estPerdu = true;
                     RaiseCustomEvent = null;
                     waveOutDevice.Stop();
-                    AudioFileReader reader = new AudioFileReader("C:\\Users\\Christophe\\Music\\gameover.wav");
+                    AudioFileReader reader = new AudioFileReader("Musiques/gameover.wav");
                     WaveOut newWaveOut = new WaveOut();
                     newWaveOut.Init(reader);
                     newWaveOut.Play();
-                    
+                    for (int i = 0; i < NB_CASE_HAUTEUR; i++)
+                    {
+                        for (int j = 0; j < NB_CASE_LARGEUR; j++)
+                        {
+                            plateau[j, i].estColore = false;
+                        }
+                    }
                 }
                 else // Sinon
                 {
@@ -142,13 +148,13 @@ namespace WindowsFormsApplication3
 
         private void decalerLignesAuDessus(int indice)
         {
-            if(indice > 0)
+            if (indice > 0)
             {
-                for(int i = indice; i > 0; i--)
+                for (int i = indice; i > 0; i--)
                 {
                     for (int j = 0; j < NB_CASE_LARGEUR; j++)
                     {
-                      plateau[j, i].ClonerCase(plateau[j,i-1]);
+                        plateau[j, i].ClonerCase(plateau[j, i - 1]);
                     }
                 }
             }
@@ -158,7 +164,7 @@ namespace WindowsFormsApplication3
         {
             // Nouvelle piece
             Piece piece = null;
-            int numPiece = randNum.Next(1,6);
+            int numPiece = randNum.Next(1, 6);
             if (numPiece == 1)
             {
                 piece = new Barre();
@@ -203,11 +209,11 @@ namespace WindowsFormsApplication3
 
         public bool gameOver()
         {
-            for(int i = 0; i < NB_CASE_LARGEUR; i++)
+            for (int i = 0; i < NB_CASE_LARGEUR; i++)
             {
-                for(int j = 0; j < NB_CASE_HAUTEUR; j++)
+                for (int j = 0; j < NB_CASE_HAUTEUR; j++)
                 {
-                    if(plateau[j,i].estColore && plateau[j,i].y < 3)
+                    if (plateau[j, i].estColore && plateau[j, i].y < 3)
                     {
                         return true;
                     }
@@ -230,16 +236,16 @@ namespace WindowsFormsApplication3
             return estComplete;
         }
 
-       public void pause()
-       {
+        public void pause()
+        {
             waveOutDevice.Stop();
             resetEvent.Reset();
-       }
+        }
 
         public void resume()
         {
             waveOutDevice.Play();
-            AudioFileReader reader = new AudioFileReader("C:\\Users\\Christophe\\Music\\hereWegoAgain.mp3");
+            AudioFileReader reader = new AudioFileReader("Musiques/hereWegoAgain.mp3");
             WaveOut newWaveOut = new WaveOut();
             newWaveOut.Init(reader);
             newWaveOut.Play();
@@ -249,9 +255,9 @@ namespace WindowsFormsApplication3
         {
             StringBuilder builder = new StringBuilder();
 
-            for(int i = 0; i < NB_CASE_HAUTEUR; i++)
+            for (int i = 0; i < NB_CASE_HAUTEUR; i++)
             {
-                for(int j = 0; j < NB_CASE_LARGEUR; j++)
+                for (int j = 0; j < NB_CASE_LARGEUR; j++)
                 {
                     builder.Append((plateau[j, i].estColore ? "1" : "0"));
                 }
