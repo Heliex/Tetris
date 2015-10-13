@@ -62,6 +62,8 @@ namespace WindowsFormsApplication3
             if(jeu.estPerdu) // SI on est gameOver
             {
                 KeyDown -= MyKeyPressedEventHandler;
+                panel1.BackgroundImage = Image.FromFile("Images/gameover.jpg");
+                label1.Visible = false;
             }
         }
 
