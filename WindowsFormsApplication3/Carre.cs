@@ -9,7 +9,7 @@ namespace WindowsFormsApplication3
         {
             hauteurPiece = 4;
             largeurPiece = 4;
-            couleur = Color.Yellow;
+            couleur = Color.FromArgb(232,206,39);
             representation = new Case[hauteurPiece, largeurPiece];
             for (int i = 0; i < hauteurPiece; i++)
             {

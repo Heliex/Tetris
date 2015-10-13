@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace WindowsFormsApplication3
 {
@@ -14,7 +9,7 @@ namespace WindowsFormsApplication3
             sens = 0;
             hauteurPiece = 4;
             largeurPiece = 4;
-            couleur = Color.GreenYellow;
+            couleur = Color.FromArgb(150,150,150);
             representation = new Case[hauteurPiece, largeurPiece];
             for (int i = 0; i < hauteurPiece; i++)
             {
@@ -30,7 +25,7 @@ namespace WindowsFormsApplication3
             switch (sens)
             {
                 case 0: // Vers le haut
-                    if(peuxTourner(0))
+                    if (peuxTourner(0))
                     {
                         decolorerPiece();
                         for (int i = 0; i < hauteurPiece; i++)
@@ -45,10 +40,10 @@ namespace WindowsFormsApplication3
                         }
                         sens++;
                     }
-                    
+
                     break;
                 case 1: // Vers le bas
-                    if(peuxTourner(1))
+                    if (peuxTourner(1))
                     {
                         decolorerPiece();
                         for (int i = 0; i < hauteurPiece; i++)
@@ -63,10 +58,10 @@ namespace WindowsFormsApplication3
                         }
                         sens++;
                     }
-                    
+
                     break;
                 case 2: // Vers la gauche
-                    if(peuxTourner(2))
+                    if (peuxTourner(2))
                     {
                         decolorerPiece();
                         for (int i = 0; i < hauteurPiece; i++)
@@ -85,10 +80,10 @@ namespace WindowsFormsApplication3
                         }
                         sens++;
                     }
-                    
+
                     break;
                 case 3: // Vers la droite
-                    if(peuxTourner(3))
+                    if (peuxTourner(3))
                     {
                         decolorerPiece();
                         initialiserPiece();

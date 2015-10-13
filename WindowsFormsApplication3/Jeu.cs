@@ -4,11 +4,17 @@ using System.Drawing;
 using System.Threading;
 using NAudio.Wave;
 using System.Text;
+using System.Collections.Generic;
 
 namespace WindowsFormsApplication3
 {
     public class Jeu
     {
+        public int score = 0;
+        public int pointDescente = 5;
+        public int pointLigneComplete = 100;
+        public int pointFinish = 1;
+        public static int COMPTEUR_LIGNE_COMPLETE = 0;
         public static readonly int NB_CASE_HAUTEUR = 16;
         public static readonly int NB_CASE_LARGEUR = 16;
         public static readonly int TailleCase = 32;
@@ -21,6 +27,21 @@ namespace WindowsFormsApplication3
         public Random randNum;
         public event EventHandler<RafraichirGUIEvent> RaiseCustomEvent;
         public ManualResetEvent resetEvent;
+        public Dictionary<double, int> intervalle = new Dictionary<double, int>()
+        {
+            {
+                0,500
+            },
+            {
+                10,450
+            },
+            {
+                20,400
+            },
+            {
+                30,350
+            }
+        };
 
 
         public Jeu()
@@ -56,7 +77,10 @@ namespace WindowsFormsApplication3
             while (!estPerdu)
             {
                 resetEvent.WaitOne();
-                Thread.Sleep(300);
+                double palier = Math.Round(COMPTEUR_LIGNE_COMPLETE / 10.0) * 10;
+                Thread.Sleep(intervalle[palier]);
+                int lastTick = System.Environment.TickCount;
+               
                 OnRaiseCustomEvent(new RafraichirGUIEvent()); // Rafraichissement du GUI
                 if (pieceCourante.PeuxDescendre()) // Si la piece peux descendre
                 {
@@ -65,6 +89,8 @@ namespace WindowsFormsApplication3
                     {
                         if (ligneEstComplete(plateau, i)) // Si elle est complete
                         {
+                            COMPTEUR_LIGNE_COMPLETE++;
+                            score += pointLigneComplete;
                             // Suppression de la ligne
                             for (int j = 0; j < NB_CASE_LARGEUR; j++)
                             {
@@ -75,8 +101,21 @@ namespace WindowsFormsApplication3
                         }
                     }
                 }
+                else if(gameOver())
+                {
+                    pieceCourante.decolorerPiece();
+                    estPerdu = true;
+                    RaiseCustomEvent = null;
+                    waveOutDevice.Stop();
+                    AudioFileReader reader = new AudioFileReader("C:\\Users\\Christophe\\Music\\gameover.wav");
+                    WaveOut newWaveOut = new WaveOut();
+                    newWaveOut.Init(reader);
+                    newWaveOut.Play();
+                    
+                }
                 else // Sinon
                 {
+                    score += pointFinish;
                     // Parcours de la piece
                     for (int i = 0; i < pieceCourante.hauteurPiece; i++)
                     {
@@ -115,11 +154,6 @@ namespace WindowsFormsApplication3
             }
         }
 
-        public void finirJeu()
-        {
-            estPerdu = true;
-        }
-
         public Piece pieceSuivante()
         {
             // Nouvelle piece
@@ -151,7 +185,6 @@ namespace WindowsFormsApplication3
 
         public void draw(Graphics g)
         {
-
             for (int i = 0; i < NB_CASE_HAUTEUR; i++)
             {
                 for (int j = 0; j < NB_CASE_LARGEUR; j++)
@@ -168,6 +201,20 @@ namespace WindowsFormsApplication3
 
         }
 
+        public bool gameOver()
+        {
+            for(int i = 0; i < NB_CASE_LARGEUR; i++)
+            {
+                for(int j = 0; j < NB_CASE_HAUTEUR; j++)
+                {
+                    if(plateau[j,i].estColore && plateau[j,i].y < 3)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         public bool ligneEstComplete(Case[,] plateau, int indice)
         {
             bool estComplete = true;

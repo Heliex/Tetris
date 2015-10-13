@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace WindowsFormsApplication3
 {
@@ -42,7 +41,7 @@ namespace WindowsFormsApplication3
                         //Dessiner tous les rectangles
                         SolidBrush brush = new SolidBrush(this.couleur);
                         g.FillRectangle(brush, new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase, representation[j, i].y * Jeu.TailleCase), new Size(32, 32)));
-                        g.DrawRectangle(new Pen(Color.Black), new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase, representation[j, i].y * Jeu.TailleCase), new Size(32, 32)));
+                        g.DrawRectangle(new Pen(Color.FromArgb(0,0,0)), new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase, representation[j, i].y * Jeu.TailleCase), new Size(32, 32)));
                     }
                 }
             }

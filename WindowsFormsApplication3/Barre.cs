@@ -15,7 +15,7 @@ namespace WindowsFormsApplication3
             sens = 0;
             hauteurPiece = 4;
             largeurPiece = 4;
-            couleur = Color.Blue;
+            couleur = Color.FromArgb(39,151,232);
             representation = new Case[hauteurPiece, largeurPiece];
             for (int i = 0; i < hauteurPiece; i++)
             {

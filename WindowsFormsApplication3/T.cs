@@ -7,32 +7,32 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApplication3
 {
-    
-        public class T : Piece
-        {
 
-            public T()
+    public class T : Piece
+    {
+
+        public T()
+        {
+            sens = 0;
+            hauteurPiece = 4;
+            largeurPiece = 4;
+            couleur = Color.FromArgb(232, 44, 39);
+            representation = new Case[hauteurPiece, largeurPiece];
+            for (int i = 0; i < hauteurPiece; i++)
             {
-                sens = 0;
-                hauteurPiece = 4;
-                largeurPiece = 4;
-                couleur = Color.Blue;
-                representation = new Case[hauteurPiece, largeurPiece];
-                for (int i = 0; i < hauteurPiece; i++)
+                for (int j = 0; j < largeurPiece; j++)
                 {
-                    for (int j = 0; j < largeurPiece; j++)
-                    {
-                        representation[j, i] = new Case(j, i, this);
-                    }
+                    representation[j, i] = new Case(j, i, this);
                 }
-                initialiserPiece();
             }
-            public override void Tourner()
+            initialiserPiece();
+        }
+        public override void Tourner()
+        {
+            switch (sens)
             {
-                switch (sens)
-                {
-                    case 0:
-     
+                case 0:
+
                     if (peuxTourner(0))
                     {
                         decolorerPiece();
@@ -40,7 +40,7 @@ namespace WindowsFormsApplication3
                         {
                             for (int j = 0; j < largeurPiece; j++)
                             {
-                                if ((i == 0 && j == 2) || (i == 1 && j > 1) || (i == 2 && j == 2))
+                                if ((i == 0 && j == 2) || (i == 1 && j > 0 && j < 3) || (i == 2 && j == 2))
                                 {
                                     representation[j, i].estColore = true;
                                 }
@@ -49,9 +49,9 @@ namespace WindowsFormsApplication3
                         sens++;
                     }
                     break;
-                    
-                    case 1: // Vers le haut
-                    if(peuxTourner(1))
+
+                case 1: // Vers le haut
+                    if (peuxTourner(1))
                     {
                         decolorerPiece();
                         for (int i = 0; i < hauteurPiece; i++)
@@ -68,35 +68,36 @@ namespace WindowsFormsApplication3
                     }
                     break;
 
-                    case 2: // Vers le haut
-                    if(peuxTourner(2))
+                case 2: // Vers le haut
+                    if (peuxTourner(2))
                     {
                         decolorerPiece();
                         for (int i = 0; i < hauteurPiece; i++)
                         {
                             for (int j = 0; j < largeurPiece; j++)
                             {
-                                if ((i == 0 && j == 2) || (i == 1 && j > 0 && j < 3) || (i == 2 && j == 2))
+                                if ((i == 0 && j == 2) || (i == 1 && j > 1) || (i == 2 && j == 2))
                                 {
                                     representation[j, i].estColore = true;
                                 }
                             }
                         }
+
                         sens++;
                     }
-                        break;
-                    case 3:
+                    break;
+                case 3:
                     if (peuxTourner(3))
                     {
                         decolorerPiece();
                         initialiserPiece();
                         sens = 0;
                     }
-                        break;
-                    default:
-                        break;
-                }
+                    break;
+                default:
+                    break;
             }
+        }
 
 
         public override bool peuxTourner(int direction)
@@ -108,10 +109,13 @@ namespace WindowsFormsApplication3
                     {
                         for (int j = 0; j < largeurPiece; j++)
                         {
-                            Case c = representation[j, i];
-                            if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                            if ((i == 0 && j == 2) || (i == 1 && j > 0 && j < 3) || (i == 2 && j == 2))
                             {
-                                return false;
+                                Case c = representation[j, i];
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                {
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -121,10 +125,13 @@ namespace WindowsFormsApplication3
                     {
                         for (int j = 0; j < largeurPiece; j++)
                         {
-                            Case c = representation[j, i];
-                            if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                            if ((i == 0 && j == 2) || (i == 1 && j > 0))
                             {
-                                return false;
+                                Case c = representation[j, i];
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                {
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -134,13 +141,17 @@ namespace WindowsFormsApplication3
                     {
                         for (int j = 0; j < largeurPiece; j++)
                         {
-                            Case c = representation[j, i];
-                            if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                            if ((i == 0 && j == 2) || (i == 1 && j > 1) || (i == 2 && j == 2))
                             {
-                                return false;
+                                Case c = representation[j, i];
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                {
+                                    return false;
+                                }
                             }
                         }
                     }
+
                     break;
                 case 3: // Vers le haut
                     for (int i = 0; i < hauteurPiece; i++)
@@ -160,20 +171,20 @@ namespace WindowsFormsApplication3
                     break;
             }
             return true;
-        }  
-        
+        }
+
         public void initialiserPiece() // Dessine la piece au départ
+        {
+            for (int i = 0; i < hauteurPiece; i++)
             {
-                for (int i = 0; i < hauteurPiece; i++)
+                for (int j = 0; j < largeurPiece; j++)
                 {
-                    for (int j = 0; j < largeurPiece; j++)
+                    if ((i == 1 && j > 0) || (i == 2 && j == 2))
                     {
-                        if ((i == 1 && j > 0) || (i == 2 && j == 2))
-                        {
-                            representation[j, i].estColore = true;
-                        }
+                        representation[j, i].estColore = true;
                     }
                 }
             }
         }
+    }
 }
