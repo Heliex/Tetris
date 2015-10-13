@@ -5,6 +5,7 @@ using System.Threading;
 using NAudio.Wave;
 using System.Text;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WindowsFormsApplication3
 {
@@ -26,6 +27,7 @@ namespace WindowsFormsApplication3
         public AudioFileReader audioFileReader;
         public Random randNum;
         public event EventHandler<RafraichirGUIEvent> RaiseCustomEvent;
+        public event EventHandler<GameOverEvent> YouGameOverEvent;
         public ManualResetEvent resetEvent;
         public Dictionary<double, int> intervalle = new Dictionary<double, int>()
         {
@@ -72,6 +74,15 @@ namespace WindowsFormsApplication3
                 handler(this, e);
             }
         }
+
+        protected virtual void OnGameOverEvent(GameOverEvent e)
+        {
+            EventHandler<GameOverEvent> handler = YouGameOverEvent;
+            if(handler != null)
+            {
+                handler(this, e);
+            }
+        }
         public void lancerJeu()
         {
             while (!estPerdu)
@@ -107,10 +118,15 @@ namespace WindowsFormsApplication3
                     estPerdu = true;
                     RaiseCustomEvent = null;
                     waveOutDevice.Stop();
-                    AudioFileReader reader = new AudioFileReader("Musiques/gameover.wav");
-                    WaveOut newWaveOut = new WaveOut();
-                    newWaveOut.Init(reader);
-                    newWaveOut.Play();
+
+                    new Task(() => 
+                    {
+                        AudioFileReader reader = new AudioFileReader("Musiques/gameover.wav");
+                        WaveOut newWaveOut = new WaveOut();
+                        newWaveOut.Init(reader);
+                        newWaveOut.Play();
+                    }).Start();
+                    
                     for (int i = 0; i < NB_CASE_HAUTEUR; i++)
                     {
                         for (int j = 0; j < NB_CASE_LARGEUR; j++)
@@ -118,6 +134,7 @@ namespace WindowsFormsApplication3
                             plateau[j, i].estColore = false;
                         }
                     }
+                    OnGameOverEvent(new GameOverEvent());
                 }
                 else // Sinon
                 {

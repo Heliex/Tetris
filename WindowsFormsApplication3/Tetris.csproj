@@ -60,6 +60,7 @@
       <DependentUpon>Debug.cs</DependentUpon>
     </Compile>
     <Compile Include="estTournable.cs" />
+    <Compile Include="GameOverEvent.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="InterfaceGraphique.cs">
       <SubType>Form</SubType>

@@ -15,7 +15,8 @@ namespace WindowsFormsApplication3
             InitializeComponent();
             label1.ForeColor = Color.FromArgb(223,241,239);
             label1.BackColor = Color.FromArgb(37,43,90);
-            label2.Visible = false;
+            panel2.Visible = false;
+            panel2.BackgroundImage = Image.FromFile("Images/gameover.jpg");
             label1.Font = new Font("Arial",12);
             jeu = new Jeu();
             label1.Text = jeu.score.ToString();
@@ -26,6 +27,7 @@ namespace WindowsFormsApplication3
             Thread ThreadJeu = new Thread(jeu.lancerJeu);
             ThreadJeu.Start();
             jeu.RaiseCustomEvent += HandleCustomEvent;
+            jeu.YouGameOverEvent += HandleGameOverEvent;
             KeyDown += new KeyEventHandler(MyKeyPressedEventHandler);
             new Debug(jeu).Show();
             panel1.BackgroundImage = Image.FromFile("Images/fondTetris.jpg");
@@ -34,6 +36,11 @@ namespace WindowsFormsApplication3
         public void HandleCustomEvent(Object sender, RafraichirGUIEvent e)
         {
             this.Invoke(() => this.Refresh());
+        }
+
+        public void HandleGameOverEvent(Object sender, GameOverEvent e)
+        {
+            this.Invoke(() => panel2.Visible = true);
         }
 
         private void InterfaceGraphique_Load(object sender, EventArgs e)
@@ -59,12 +66,6 @@ namespace WindowsFormsApplication3
             this.ClientSize = new Size((int)Jeu.NB_CASE_LARGEUR * Jeu.TailleCase, (int)Jeu.NB_CASE_HAUTEUR * Jeu.TailleCase);
             jeu.draw(g);
             label1.Text = jeu.score.ToString();
-            if(jeu.estPerdu) // SI on est gameOver
-            {
-                KeyDown -= MyKeyPressedEventHandler;
-                panel1.BackgroundImage = Image.FromFile("Images/gameover.jpg");
-                label1.Visible = false;
-            }
         }
 
         public void MyKeyPressedEventHandler(Object sender ,KeyEventArgs keyData)
@@ -114,11 +115,6 @@ namespace WindowsFormsApplication3
         private void label1_Click(object sender, EventArgs e)
         {
           
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
