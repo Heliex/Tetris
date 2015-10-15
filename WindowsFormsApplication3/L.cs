@@ -110,7 +110,7 @@ namespace WindowsFormsApplication3
                             if ((i == 0 && j == 3) || (i == 1 && j > 0))
                             {
                                 Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore ||Jeu.enPause)
                                 {
                                     return false;
                                 }
@@ -126,7 +126,7 @@ namespace WindowsFormsApplication3
                             if (((i == 0 || i == 1 || i == 2) && j == 2) || (i == 2 && j == 3))
                             {
                                 Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
                                     return false;
                                 }
@@ -142,7 +142,7 @@ namespace WindowsFormsApplication3
                             if ((i == 1 && j > 0) || (i == 2 && j == 1))
                             {
                                 Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
                                     return false;
                                 }
@@ -158,7 +158,7 @@ namespace WindowsFormsApplication3
                             if (((j == 1 || j == 2) && i == 0) || (i == 1 && j == 2) || (i == 2 && j == 2))
                             {
                                 Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
                                     return false;
                                 }

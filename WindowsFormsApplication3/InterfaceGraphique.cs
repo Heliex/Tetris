@@ -97,7 +97,7 @@ namespace WindowsFormsApplication3
             }
             if(keyData.KeyCode == Keys.S || keyData.KeyCode == Keys.Down)
             {
-                if(jeu.pieceCourante.PeuxDescendre())
+                if(jeu.pieceCourante.PeuxDescendre() && !Jeu.enPause)
                 {
                     jeu.pieceCourante.descendre();
                     jeu.score += jeu.pointDescente;

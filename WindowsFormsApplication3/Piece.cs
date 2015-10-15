@@ -100,7 +100,7 @@ namespace WindowsFormsApplication3
                     Case c = representation[j, i];
                     if (c.estColore)
                     {
-                        if ((c.x + direction < 0 || c.x + direction > Jeu.NB_CASE_LARGEUR - 1) || (Jeu.plateau[c.x + direction, c.y].estColore))
+                        if ((c.x + direction < 0 || c.x + direction > Jeu.NB_CASE_LARGEUR - 1) || (Jeu.plateau[c.x + direction, c.y].estColore) || Jeu.enPause)
                         {
                             return false;
                         }

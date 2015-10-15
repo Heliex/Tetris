@@ -11,6 +11,7 @@ namespace WindowsFormsApplication3
 {
     public class Jeu
     {
+        public static bool enPause = false;
         public int score = 0;
         public int pointDescente = 5;
         public int pointLigneComplete = 100;
@@ -42,6 +43,30 @@ namespace WindowsFormsApplication3
             },
             {
                 30,350
+            }
+            ,
+            {
+                40,300
+            }
+            ,
+            {
+                50,250
+            }
+            ,
+            {
+                60,200
+            }
+            ,
+            {
+                100,150
+            }
+            ,
+            {
+                200,100
+            }
+            ,
+            {
+                300,50
             }
         };
 
@@ -89,7 +114,14 @@ namespace WindowsFormsApplication3
             {
                 resetEvent.WaitOne();
                 double palier = Math.Round(COMPTEUR_LIGNE_COMPLETE / 10.0) * 10;
-                Thread.Sleep(intervalle[palier]);
+                if(intervalle[palier] > 50)
+                {
+                    Thread.Sleep(intervalle[palier]);
+                }
+                else
+                {
+                    Thread.Sleep(50);
+                }
                 int lastTick = System.Environment.TickCount;
 
                 OnRaiseCustomEvent(new RafraichirGUIEvent()); // Rafraichissement du GUI
@@ -257,6 +289,7 @@ namespace WindowsFormsApplication3
         {
             waveOutDevice.Stop();
             resetEvent.Reset();
+            enPause = true;
         }
 
         public void resume()
@@ -267,6 +300,7 @@ namespace WindowsFormsApplication3
             newWaveOut.Init(reader);
             newWaveOut.Play();
             resetEvent.Set();
+            enPause = false;
         }
         public override String ToString()
         {

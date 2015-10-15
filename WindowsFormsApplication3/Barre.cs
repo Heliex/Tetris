@@ -39,7 +39,7 @@ namespace WindowsFormsApplication3
                         {
                             for (int j = 0; j < largeurPiece; j++)
                             {
-                                if (j == 2)
+                                if (j == 2 ||Jeu.enPause)
                                 {
                                     representation[j, i].estColore = true;
                                 }
@@ -74,7 +74,7 @@ namespace WindowsFormsApplication3
                             if (j == 2)
                             {
                                 Case c = representation[j, i];
-                                if(c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                if(c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
                                     return false;
                                 }
@@ -90,7 +90,7 @@ namespace WindowsFormsApplication3
                             if (i == 1)
                             {
                                 Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore)
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
                                     return false;
                                 }
