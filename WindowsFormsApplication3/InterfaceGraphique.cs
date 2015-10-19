@@ -117,7 +117,9 @@ namespace WindowsFormsApplication3
 
         private void InterfaceGraphique_FormClosed(object sender, FormClosedEventArgs e) // Quand on clique sur la croix rouge
         {
-            jeu.estPerdu = true;
+            jeu.RaiseCustomEvent -= HandleCustomEvent; // On supprime les catch d'evements
+            jeu.YouGameOverEvent -= HandleGameOverEvent;
+            jeu.estPerdu = true; // Et on stoppe la boucle infinie
         }
     }
 }
