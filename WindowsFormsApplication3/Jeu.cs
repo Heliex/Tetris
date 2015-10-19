@@ -281,25 +281,12 @@ namespace WindowsFormsApplication3
 
         public bool gameOver() // Méthode qui définit si on est gameOver ou pas
         {
-            int limite = 0;
-            
-            if(pieceCourante.GetType() == typeof(Barre) || pieceCourante.GetType() == typeof(Carre) || pieceCourante.GetType() == typeof(T) || pieceCourante.GetType() == typeof(Z) || pieceCourante.GetType() == typeof(S))
+           for(int i = 0; i < NB_CASE_LARGEUR; i++)
             {
-                limite = 2;
-            }
-            else if(pieceCourante.GetType() == typeof(L) || pieceCourante.GetType() == typeof(LInversee))
-            {
-                limite = 3;
-            }
-
-            for(int i = limite; i < limite+1; i++)
-            {
-                for(int j = 0; j < NB_CASE_LARGEUR; j++)
+                if(plateau[i,1].estColore)
                 {
-                    if(plateau[j,i].estColore)
-                    {
-                        return true;
-                    }
+                    pieceCourante.decolorerPiece();
+                    return true;
                 }
             }
             return false;
