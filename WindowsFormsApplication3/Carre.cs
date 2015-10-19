@@ -7,6 +7,8 @@ namespace WindowsFormsApplication3
     {
         public Carre()
         {
+            offsetPieceHorizontal = 6;
+            offsetPieceVertical = 0;
             hauteurPiece = 4;
             largeurPiece = 4;
             couleur = Color.FromArgb(232,206,39);
@@ -15,7 +17,7 @@ namespace WindowsFormsApplication3
             {
                 for (int j = 0; j < largeurPiece; j++)
                 {
-                    representation[j, i] = new Case(j, i, this);
+                    representation[j, i] = new Case(j + offsetPieceHorizontal, i + offsetPieceVertical, this);
                 }
             }
             initialiserPiece();

@@ -6,6 +6,8 @@ namespace WindowsFormsApplication3
     {
         public LInversee()
         {
+            offsetPieceHorizontal = 6;
+            offsetPieceVertical = 1;
             sens = 0;
             hauteurPiece = 4;
             largeurPiece = 4;
@@ -15,7 +17,7 @@ namespace WindowsFormsApplication3
             {
                 for (int j = 0; j < largeurPiece; j++)
                 {
-                    representation[j, i] = new Case(j, i, this);
+                    representation[j, i] = new Case(j + offsetPieceHorizontal, i + offsetPieceVertical, this);
                 }
             }
             initialiserPiece();

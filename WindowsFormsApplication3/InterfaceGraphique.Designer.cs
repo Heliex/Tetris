@@ -56,7 +56,7 @@
             this.label1.Size = new System.Drawing.Size(51, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            //this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // panel2
             // 
@@ -77,7 +77,7 @@
             this.Name = "InterfaceGraphique";
             this.Text = "Tetris";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InterfaceGraphique_FormClosed);
-            this.Load += new System.EventHandler(this.InterfaceGraphique_Load);
+            //this.Load += new System.EventHandler(this.InterfaceGraphique_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

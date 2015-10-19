@@ -9,27 +9,41 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApplication3
 {
+    /**
+    *   Classe Jeu
+    *   Cette classe contient toute la logique du jeu
+    *   Dernière modification : 19/10/2015 par Christophe GERARD
+    **/
     public class Jeu
     {
+        // Attributs statiques
         public static bool enPause = false;
-        public int score = 0;
-        public int pointDescente = 5;
-        public int pointLigneComplete = 100;
-        public int pointFinish = 1;
         public static int COMPTEUR_LIGNE_COMPLETE = 0;
         public static readonly int NB_CASE_HAUTEUR = 16;
         public static readonly int NB_CASE_LARGEUR = 16;
         public static readonly int TailleCase = 32;
-        public ArrayList pieces = new ArrayList();
         public static Case[,] plateau;
-        public Piece pieceCourante { get; set; }
+
+        // Attibruts 
+        public int score = 0;
+        public int pointDescente = 5;
+        public int pointLigneComplete = 100;
+        public int pointFinish = 1;
+        // Cet attibrut est volatile, ca veux dire qu'il est modifiable par des Thread différents
         public volatile bool estPerdu;
-        public IWavePlayer waveOutDevice;
-        public AudioFileReader audioFileReader;
-        public Random randNum;
+
+        // Attributs evenements
         public event EventHandler<RafraichirGUIEvent> RaiseCustomEvent;
         public event EventHandler<GameOverEvent> YouGameOverEvent;
+
+        // Attributs "objets"
+        public IWavePlayer waveOutDevice;
+        public ArrayList pieces = new ArrayList();
+        public Piece pieceCourante { get; set; }
+        public AudioFileReader audioFileReader;
+        public Random randNum;
         public ManualResetEvent resetEvent;
+        // Dictionnaire de données pour regler la vitesse de descente selon le nombre de ligne compléte
         public Dictionary<double, int> intervalle = new Dictionary<double, int>()
         {
             {
@@ -71,8 +85,9 @@ namespace WindowsFormsApplication3
         };
 
 
-        public Jeu()
+        public Jeu() // Constructeur par défaut
         {
+            // Initialisation des variables
             resetEvent = new ManualResetEvent(true);
             randNum = new Random();
             plateau = new Case[NB_CASE_HAUTEUR, NB_CASE_LARGEUR];
@@ -88,9 +103,10 @@ namespace WindowsFormsApplication3
                     plateau[j, i] = new Case(j, i);
                 }
             }
-            pieceCourante = pieceSuivante();
+            pieceCourante = pieceSuivante(); // On récupére la pièce suivante
         }
 
+        // Méthode qui définit l'evenement RafrachirGUI
         protected virtual void OnRaiseCustomEvent(RafraichirGUIEvent e)
         {
             EventHandler<RafraichirGUIEvent> handler = RaiseCustomEvent;
@@ -99,7 +115,7 @@ namespace WindowsFormsApplication3
                 handler(this, e);
             }
         }
-
+        // Méthode qui définit l'evenement GameOverEvent
         protected virtual void OnGameOverEvent(GameOverEvent e)
         {
             EventHandler<GameOverEvent> handler = YouGameOverEvent;
@@ -108,9 +124,9 @@ namespace WindowsFormsApplication3
                 handler(this, e);
             }
         }
-        public void lancerJeu()
+        public void lancerJeu() // Methode de jeu principale
         {
-            while (!estPerdu)
+            while (!estPerdu) // Boucle infinie
             {
                 resetEvent.WaitOne();
                 double palier = Math.Round(COMPTEUR_LIGNE_COMPLETE / 10.0) * 10;
@@ -258,11 +274,22 @@ namespace WindowsFormsApplication3
 
         public bool gameOver()
         {
-            for (int i = 0; i < NB_CASE_LARGEUR; i++)
+            int limite = 0;
+            
+            if(pieceCourante.GetType() == typeof(Barre) || pieceCourante.GetType() == typeof(Carre) || pieceCourante.GetType() == typeof(T))
             {
-                for (int j = 0; j < NB_CASE_HAUTEUR; j++)
+                limite = 2;
+            }
+            else if(pieceCourante.GetType() == typeof(L) || pieceCourante.GetType() == typeof(LInversee))
+            {
+                limite = 3;
+            }
+
+            for(int i = limite; i < limite+1; i++)
+            {
+                for(int j = 0; j < NB_CASE_LARGEUR; j++)
                 {
-                    if (plateau[j, i].estColore && plateau[j, i].y < 3)
+                    if(plateau[j,i].estColore)
                     {
                         return true;
                     }
@@ -314,7 +341,6 @@ namespace WindowsFormsApplication3
                 }
                 builder.AppendLine();
             }
-            builder.AppendLine();
             return builder.ToString();
         }
     }

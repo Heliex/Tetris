@@ -10,15 +10,20 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication3
 {
+    /**
+    *   Classe Debug
+    *   Permet de débugger le plateau
+    *   Dernière modification : 19/10/2015 par Christophe GERARD
+    **/
     public partial class Debug : Form
     {
-        Jeu game;
+        Jeu game; // Jeu
         public Debug(Jeu jeu)
         {
             InitializeComponent();
             game = jeu; 
             Location = new Point(1000, 0);
-            jeu.RaiseCustomEvent += Jeu_RaiseCustomEvent;
+            jeu.RaiseCustomEvent += Jeu_RaiseCustomEvent; // On attrape l'evenement rafraichirGUI
             
         }
 
@@ -27,7 +32,7 @@ namespace WindowsFormsApplication3
             this.Invoke(() => this.RefreshDebug());
         }
 
-        private void RefreshDebug()
+        private void RefreshDebug() // Cette méthode appelle le ToString de la classe Jeu et l'affiche dans son interface graphique
         {
             textBox1.Text = game.ToString();
         }
