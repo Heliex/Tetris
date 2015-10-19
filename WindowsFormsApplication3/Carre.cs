@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace WindowsFormsApplication3
 {
@@ -11,7 +10,7 @@ namespace WindowsFormsApplication3
             offsetPieceVertical = 0;
             hauteurPiece = 4;
             largeurPiece = 4;
-            couleur = Color.FromArgb(232,206,39);
+            couleur = Color.FromArgb(239, 216, 9);
             representation = new Case[hauteurPiece, largeurPiece];
             for (int i = 0; i < hauteurPiece; i++)
             {

@@ -128,18 +128,17 @@ namespace WindowsFormsApplication3
         {
             while (!estPerdu) // Boucle infinie
             {
-                resetEvent.WaitOne();
-                double palier = Math.Round(COMPTEUR_LIGNE_COMPLETE / 10.0) * 10;
-                if(intervalle[palier] > 50)
+                resetEvent.WaitOne(); // Attente d'un signal
+                double palier = Math.Round(COMPTEUR_LIGNE_COMPLETE / 10.0) * 10; // Définission du niveau
+                if(intervalle[palier] > 50) // Si le niveau est supérieur a 50ms d'intervalle
                 {
-                    Thread.Sleep(intervalle[palier]);
+                    Thread.Sleep(intervalle[palier]); // Alors on le set avec le dictionnaire
                 }
                 else
                 {
-                    Thread.Sleep(50);
+                    Thread.Sleep(50); // Sinon on le set a 50
                 }
-                int lastTick = System.Environment.TickCount;
-
+                
                 OnRaiseCustomEvent(new RafraichirGUIEvent()); // Rafraichissement du GUI
                 if (pieceCourante.PeuxDescendre()) // Si la piece peux descendre
                 {
@@ -160,12 +159,12 @@ namespace WindowsFormsApplication3
                         }
                     }
                 }
-                else if (gameOver())
+                else if (gameOver()) // Sinon si gameOver
                 {
-                    pieceCourante.decolorerPiece();
+                    pieceCourante.decolorerPiece(); // On décolore la piece
                     estPerdu = true;
-                    RaiseCustomEvent = null;
-                    waveOutDevice.Stop();
+                    RaiseCustomEvent = null; // On supprime les evenements
+                    waveOutDevice.Stop(); // On arrête la musique de Tetris
 
                     new Task(() => 
                     {
@@ -173,7 +172,7 @@ namespace WindowsFormsApplication3
                         WaveOut newWaveOut = new WaveOut();
                         newWaveOut.Init(reader);
                         newWaveOut.Play();
-                    }).Start();
+                    }).Start(); // Et on lance de façon asynchrone la musique de gameOver
                     
                     for (int i = 0; i < NB_CASE_HAUTEUR; i++)
                     {
@@ -182,13 +181,13 @@ namespace WindowsFormsApplication3
                             plateau[j, i].estColore = false;
                         }
                     }
-                    OnGameOverEvent(new GameOverEvent());
+                    OnGameOverEvent(new GameOverEvent()); // On notifie l'evenement GameOver
                 }
-                else // Sinon
+                else // Sinon on doit faire apparaitre la pièce suivante
                 {
                     score += pointFinish;
                     // Parcours de la piece
-                    for (int i = 0; i < pieceCourante.hauteurPiece; i++)
+                    for (int i = 0; i < pieceCourante.hauteurPiece; i++) // On inscris la pièce dans le plateau
                     {
                         for (int j = 0; j < pieceCourante.largeurPiece; j++)
                         {
@@ -206,12 +205,12 @@ namespace WindowsFormsApplication3
                             }
                         }
                     }
-                    pieceCourante = pieceSuivante();
+                    pieceCourante = pieceSuivante(); // On génére la pièce suivante
                 }
             }
         }
 
-        private void decalerLignesAuDessus(int indice)
+        private void decalerLignesAuDessus(int indice) // Méthode qui permet de décaler toutes les lignes vers le dessus
         {
             if (indice > 0)
             {
@@ -225,11 +224,11 @@ namespace WindowsFormsApplication3
             }
         }
 
-        public Piece pieceSuivante()
+        public Piece pieceSuivante() // Génére une nouvelle pièce de façon aléatoire
         {
             // Nouvelle piece
             Piece piece = null;
-            int numPiece = randNum.Next(1, 6);
+            int numPiece = randNum.Next(1, 8);
             if (numPiece == 1)
             {
                 piece = new Barre();
@@ -250,11 +249,19 @@ namespace WindowsFormsApplication3
             {
                 piece = new LInversee();
             }
+            if(numPiece == 6)
+            {
+                piece = new S();
+            }
+            if(numPiece == 7)
+            {
+                piece = new Z();
+            }
             return piece;
         }
 
 
-        public void draw(Graphics g)
+        public void draw(Graphics g) // Méthode draw de la classe jeu
         {
             for (int i = 0; i < NB_CASE_HAUTEUR; i++)
             {
@@ -263,20 +270,20 @@ namespace WindowsFormsApplication3
 
                     if (plateau[j, i].estColore)
                     {
-                        plateau[j, i].draw(g);
+                        plateau[j, i].draw(g); // pour chaque case on appelle la méthode draw de la case
                     }
 
                 }
             }
-            pieceCourante.draw(g);
+            pieceCourante.draw(g); // et la méthode draw de la pièce
 
         }
 
-        public bool gameOver()
+        public bool gameOver() // Méthode qui définit si on est gameOver ou pas
         {
             int limite = 0;
             
-            if(pieceCourante.GetType() == typeof(Barre) || pieceCourante.GetType() == typeof(Carre) || pieceCourante.GetType() == typeof(T))
+            if(pieceCourante.GetType() == typeof(Barre) || pieceCourante.GetType() == typeof(Carre) || pieceCourante.GetType() == typeof(T) || pieceCourante.GetType() == typeof(Z) || pieceCourante.GetType() == typeof(S))
             {
                 limite = 2;
             }
@@ -297,13 +304,15 @@ namespace WindowsFormsApplication3
             }
             return false;
         }
+
+        // Méthode qui definit si une ligne est compléte
         public bool ligneEstComplete(Case[,] plateau, int indice)
         {
             bool estComplete = true;
 
-            for (int j = 0; j < NB_CASE_LARGEUR; j++)
+            for (int j = 0; j < NB_CASE_LARGEUR; j++) // On parcours une ligne
             {
-                if (!plateau[j, indice].estColore)
+                if (!plateau[j, indice].estColore) // Si on trouve une case pas colorée la ligne n'est pas compléte
                 {
                     estComplete = false;
                     break;
@@ -312,14 +321,14 @@ namespace WindowsFormsApplication3
             return estComplete;
         }
 
-        public void pause()
+        public void pause() // Mets en pause le jeu
         {
             waveOutDevice.Stop();
             resetEvent.Reset();
             enPause = true;
         }
 
-        public void resume()
+        public void resume() // Relance le jeu en jouant un son
         {
             waveOutDevice.Play();
             AudioFileReader reader = new AudioFileReader("Musiques/hereWegoAgain.mp3");
@@ -329,7 +338,7 @@ namespace WindowsFormsApplication3
             resetEvent.Set();
             enPause = false;
         }
-        public override String ToString()
+        public override String ToString() // Permet d'afficher le plateau avec des 0 et des 1 dans le debug
         {
             StringBuilder builder = new StringBuilder();
 

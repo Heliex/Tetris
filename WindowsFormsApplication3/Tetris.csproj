@@ -74,7 +74,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RafraichirGUIEvent.cs" />
+    <Compile Include="S.cs" />
     <Compile Include="T.cs" />
+    <Compile Include="Z.cs" />
     <EmbeddedResource Include="debug.resx">
       <DependentUpon>Debug.cs</DependentUpon>
     </EmbeddedResource>
