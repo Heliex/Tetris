@@ -13,7 +13,7 @@ namespace WindowsFormsApplication3
         public int sens; // Compteur pour le sens
         public int hauteurPiece; // Hauteur de la pièce
         public int largeurPiece; // Largeur de la pièce
-        // Ces deux variables servent à placer la pièce à l'initialisation au milieu de plateau
+        // Ces deux variables servent à placer la pièce à l'initialisation au milieu du plateau de jeu
         public int offsetPieceHorizontal; // Offset sur la ligne horizontale
         public int offsetPieceVertical; // Offset en hauteur
         public Color couleur; // Couleur de la pièce

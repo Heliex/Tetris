@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
 
-
 namespace WindowsFormsApplication3
 {
     /**
@@ -21,11 +20,11 @@ namespace WindowsFormsApplication3
             /**
             *   Couleurs pour le score (fond et texte)
             **/
-            label1.ForeColor = Color.FromArgb(223,241,239);
-            label1.BackColor = Color.FromArgb(37,43,90);
+            label1.ForeColor = Color.FromArgb(223, 241, 239);
+            label1.BackColor = Color.FromArgb(0, 0, 0);
             panel2.Visible = false; // On rend invisible le deuxieme panel
             panel2.BackgroundImage = Image.FromFile("Images/gameover.jpg"); // Et on lui affecte une image de fond
-            label1.Font = new Font("Arial",12);
+            label1.Font = new Font("Arial", 12);
             jeu = new Jeu(); // Création du nouveau jeu
             label1.Text = jeu.score.ToString(); // Affichage du score dans le label 1
             label1.AutoSize = false;
@@ -37,12 +36,12 @@ namespace WindowsFormsApplication3
             jeu.RaiseCustomEvent += HandleCustomEvent; // Gestion d'evenement pour rafraichir la GUI
             jeu.YouGameOverEvent += HandleGameOverEvent; // Gestion d'evenement pour le gameOver
             KeyDown += new KeyEventHandler(MyKeyPressedEventHandler); // Gestion d'evenement pour une touche pressée
-            new Debug(jeu).Show(); // Interface de debug (a commenté si non voulue)
+            //new Debug(jeu).Show(); // Interface de debug (a commenté si non voulue)
             panel1.BackgroundImage = Image.FromFile("Images/fondTetris.jpg"); // On set le fond du jeu
         }
 
         // Cette méthode permet de rafraichir la GUI quand un evenement RafraichirGUIEvent se présente
-        public void HandleCustomEvent(Object sender, RafraichirGUIEvent e) 
+        public void HandleCustomEvent(Object sender, RafraichirGUIEvent e)
         {
             this.Invoke(() => this.Refresh());
         }
@@ -66,7 +65,7 @@ namespace WindowsFormsApplication3
             }
         }
 
-        
+
         private void panel1_Paint(object sender, PaintEventArgs e) // Méthode qui initialize le panel Graphiquement
         {
             Graphics g = e.Graphics;
@@ -76,13 +75,13 @@ namespace WindowsFormsApplication3
         }
 
         // Méthode qui gére les evenement quand une touche du clavier est pressée
-        public void MyKeyPressedEventHandler(Object sender ,KeyEventArgs keyData)
+        public void MyKeyPressedEventHandler(Object sender, KeyEventArgs keyData)
         {
-            if(keyData.KeyCode == Keys.D || keyData.KeyCode == Keys.Right)
+            if (keyData.KeyCode == Keys.D || keyData.KeyCode == Keys.Right)
             {
                 jeu.pieceCourante.deplacer(1); // Déplacement vers la droite
             }
-            if(keyData.KeyCode == Keys.Q || keyData.KeyCode == Keys.Left)
+            if (keyData.KeyCode == Keys.Q || keyData.KeyCode == Keys.Left)
             {
                 jeu.pieceCourante.deplacer(-1); // Déplacement vers la gauche
             }
@@ -94,25 +93,24 @@ namespace WindowsFormsApplication3
             {
                 jeu.pause(); // Mise en pause
             }
-            if(keyData.KeyCode == Keys.Z || keyData.KeyCode == Keys.Up)
+            if (keyData.KeyCode == Keys.Z || keyData.KeyCode == Keys.Up)
             {
                 jeu.pieceCourante.Tourner(); // Rotation de la pièce courante
             }
-            if(keyData.KeyCode == Keys.Escape) // Echap pour quitter le jeu
+            if (keyData.KeyCode == Keys.Escape) // Echap pour quitter le jeu
             {
                 jeu.estPerdu = true;
                 this.Close();
             }
-            if(keyData.KeyCode == Keys.S || keyData.KeyCode == Keys.Down) // Descendre la pièce plus rapidement
+            if (keyData.KeyCode == Keys.S || keyData.KeyCode == Keys.Down) // Descendre la pièce plus rapidement
             {
-                if(jeu.pieceCourante.PeuxDescendre() && !Jeu.enPause) // Si la piece peut descendre et que le jeu n'est pas en pause
+                if (jeu.pieceCourante.PeuxDescendre() && !Jeu.enPause) // Si la piece peut descendre et que le jeu n'est pas en pause
                 {
                     jeu.pieceCourante.descendre(); // Alors on descend la pièce
                     jeu.score += jeu.pointDescente;
                 }
             }
             Refresh(); // Et dans tous les cas on rafraichi l'interface graphique à la fin
-            
         }
 
         private void InterfaceGraphique_FormClosed(object sender, FormClosedEventArgs e) // Quand on clique sur la croix rouge
@@ -120,6 +118,9 @@ namespace WindowsFormsApplication3
             jeu.RaiseCustomEvent -= HandleCustomEvent; // On supprime les catch d'evements
             jeu.YouGameOverEvent -= HandleGameOverEvent;
             jeu.estPerdu = true; // Et on stoppe la boucle infinie
+
         }
+
+
     }
 }

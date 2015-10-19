@@ -2,11 +2,17 @@
 
 namespace WindowsFormsApplication3
 {
+    /**
+    *   Classe Barre
+    *   Représente la Barre dans le jeu Tetris
+    *   Dernière modification : 19/10/2015 par Christophe GERARD
+    **/
     public class Barre : Piece
     {
-
+        
         public Barre()
         {
+            // Initialisation de la pièce
             sens = 0;
             offsetPieceHorizontal = 6;
             offsetPieceVertical = 0;
@@ -24,19 +30,19 @@ namespace WindowsFormsApplication3
             initialiserPiece();
         }
 
-        public override void Tourner()
+        public override void Tourner() // Méthode qui définit la rotation pour une pièce
         {
                 switch (sens)
                 {
                     case 0: // Vers le haut
-                    if(peuxTourner(0))
+                    if(peuxTourner(0)) // Si la pièce peux tourner
                     {
                         decolorerPiece();
                         for (int i = 0; i < hauteurPiece; i++)
                         {
                             for (int j = 0; j < largeurPiece; j++)
                             {
-                                if (j == 2 ||Jeu.enPause)
+                                if (j == 2)
                                 {
                                     representation[j, i].estColore = true;
                                 }
@@ -59,7 +65,7 @@ namespace WindowsFormsApplication3
                 }
         }
 
-        public override bool peuxTourner(int direction)
+        public override bool peuxTourner(int direction) // Définition de la méthode peuxTourner pour une barre
         {
             switch(direction)
             {

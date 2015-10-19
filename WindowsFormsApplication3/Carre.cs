@@ -2,10 +2,16 @@
 
 namespace WindowsFormsApplication3
 {
+    /**
+    *   Classe Carre
+    *   Cette classe permet de définir le carré dans tetris
+    *   Dernière modification : 19/10/2015 par Christophe GERARD
+    **/
     class Carre : Piece
     {
         public Carre()
         {
+            // Initialisation du carré
             offsetPieceHorizontal = 6;
             offsetPieceVertical = 0;
             hauteurPiece = 4;
@@ -22,7 +28,7 @@ namespace WindowsFormsApplication3
             initialiserPiece();
         }
 
-
+        // Le carré n'a pas besoin d'être tourné
         public override void Tourner()
         {
             
