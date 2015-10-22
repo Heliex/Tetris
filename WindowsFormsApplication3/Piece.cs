@@ -57,20 +57,27 @@ namespace WindowsFormsApplication3
 
         public bool PeuxDescendre() // Méthode qui definit si la pièce peut descendre
         {
-            // Parcours de la piece
-            for (int i = 0; i < hauteurPiece; i++)
+            if(Jeu.plateau != null)
             {
-                for (int j = 0; j < largeurPiece; j++)
+                // Parcours de la piece
+                for (int i = 0; i < hauteurPiece; i++)
                 {
-                    if (representation[j, i].estColore) // Si la case de la représentation de la pièc est colorée
+                    for (int j = 0; j < largeurPiece; j++)
                     {
-                        // Si le y de la case dépasse du plateau ou que la case du dessous est colorée
-                        if (representation[j, i].y >= Jeu.NB_CASE_HAUTEUR - 1 || Jeu.plateau[representation[j, i].x, representation[j, i].y + 1].estColore)
+                        if (representation[j, i].estColore) // Si la case de la représentation de la pièc est colorée
                         {
-                            return false; // On peux pas descendre
+                            // Si le y de la case dépasse du plateau ou que la case du dessous est colorée
+                            if (representation[j, i].y >= Jeu.NB_CASE_HAUTEUR - 1 || Jeu.plateau[representation[j, i].x, representation[j, i].y + 1].estColore || Jeu.plateau == null)
+                            {
+                                return false; // On peux pas descendre
+                            }
                         }
                     }
                 }
+            }
+            else
+            {
+                return false;
             }
             return true;
         }
@@ -106,21 +113,28 @@ namespace WindowsFormsApplication3
 
         public bool peuxDeplacer(int direction) // Méthode qui définit si on peux déplacer la pièce dans la direction ou non
         {
-            for (int i = 0; i < hauteurPiece; i++) // Parcours de la répresentation de la pièce
+            if(Jeu.plateau != null)
             {
-                for (int j = 0; j < largeurPiece; j++)
+                for (int i = 0; i < hauteurPiece; i++) // Parcours de la répresentation de la pièce
                 {
-                    Case c = representation[j, i];
-                    if (c.estColore) // si la case est colorée
+                    for (int j = 0; j < largeurPiece; j++)
                     {
-                        // Si on depasse du plateau ou si le jeu est en pause
-                        if ((c.x + direction < 0 || c.x + direction > Jeu.NB_CASE_LARGEUR - 1) || (Jeu.plateau[c.x + direction, c.y].estColore) || Jeu.enPause)
+                        Case c = representation[j, i];
+                        if (c.estColore) // si la case est colorée
                         {
-                            return false; // Alors on peux pas déplacer la pièce
-                        }
+                            // Si on depasse du plateau ou si le jeu est en pause
+                            if ((c.x + direction < 0 || c.x + direction > Jeu.NB_CASE_LARGEUR - 1) || (Jeu.plateau[c.x + direction, c.y].estColore) || Jeu.enPause || Jeu.plateau == null)
+                            {
+                                return false; // Alors on peux pas déplacer la pièce
+                            }
 
+                        }
                     }
                 }
+            }
+            else
+            {
+                return false;
             }
 
             return true;

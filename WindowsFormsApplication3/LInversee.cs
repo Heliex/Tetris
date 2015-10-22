@@ -7,7 +7,7 @@ namespace WindowsFormsApplication3
     *   Représente le pièce LInversee dans le jeu Tetris
     *   Dernière modification : 22/10/2015 par Christophe GERARD
     **/
-    class LInversee : Piece
+    public class LInversee : Piece
     {
         public LInversee()
         {
@@ -104,73 +104,80 @@ namespace WindowsFormsApplication3
 
         public override bool peuxTourner(int direction) // Méthode qui détermine si la pièce Linversee peux tourner
         {
-            switch (direction)
+            if(Jeu.plateau != null)
             {
-                case 0:
-                    for (int i = 0; i < hauteurPiece; i++)
-                    {
-                        for (int j = 0; j < largeurPiece; j++)
+                switch (direction)
+                {
+                    case 0:
+                        for (int i = 0; i < hauteurPiece; i++)
                         {
-                            if ((j == 1 && i == 0) || (i == 1 && j > 0))
+                            for (int j = 0; j < largeurPiece; j++)
                             {
-                                Case c = representation[j, i];
-                                // Si la pièce dépasse du plateau ou que le jeu est en pause
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                if ((j == 1 && i == 0) || (i == 1 && j > 0))
                                 {
-                                    return false; // Alors on peux pas tourner
+                                    Case c = representation[j, i];
+                                    // Si la pièce dépasse du plateau ou que le jeu est en pause
+                                    if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                    {
+                                        return false; // Alors on peux pas tourner
+                                    }
                                 }
                             }
                         }
-                    }
-                    break;
-                case 1:
-                    for (int i = 0; i < hauteurPiece; i++)
-                    {
-                        for (int j = 0; j < largeurPiece; j++)
+                        break;
+                    case 1:
+                        for (int i = 0; i < hauteurPiece; i++)
                         {
-                            if (((j == 2 || j == 3) && i == 0) || (i == 1 && j == 2) || (i == 2 && j == 2))
+                            for (int j = 0; j < largeurPiece; j++)
                             {
-                                Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                if (((j == 2 || j == 3) && i == 0) || (i == 1 && j == 2) || (i == 2 && j == 2))
                                 {
-                                    return false;
+                                    Case c = representation[j, i];
+                                    if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                    {
+                                        return false;
+                                    }
                                 }
                             }
                         }
-                    }
-                    break;
-                case 2: // Vers le haut
-                    for (int i = 0; i < hauteurPiece; i++)
-                    {
-                        for (int j = 0; j < largeurPiece; j++)
+                        break;
+                    case 2: // Vers le haut
+                        for (int i = 0; i < hauteurPiece; i++)
                         {
-                            if (i == 1 && j > 0 || (i == 2 && j == 3))
+                            for (int j = 0; j < largeurPiece; j++)
                             {
-                                Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                if (i == 1 && j > 0 || (i == 2 && j == 3))
                                 {
-                                    return false;
+                                    Case c = representation[j, i];
+                                    if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                    {
+                                        return false;
+                                    }
                                 }
                             }
                         }
-                    }
-                    break;
-                case 3: // Vers le haut
-                    for (int i = 0; i < hauteurPiece; i++)
-                    {
-                        for (int j = 0; j < largeurPiece; j++)
+                        break;
+                    case 3: // Vers le haut
+                        for (int i = 0; i < hauteurPiece; i++)
                         {
-                            if ((j == 2 && (i == 0 || i == 1)) || (i == 2 && (j == 1 || j == 2)))
+                            for (int j = 0; j < largeurPiece; j++)
                             {
-                                Case c = representation[j, i];
-                                if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                if ((j == 2 && (i == 0 || i == 1)) || (i == 2 && (j == 1 || j == 2)))
                                 {
-                                    return false;
+                                    Case c = representation[j, i];
+                                    if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                    {
+                                        return false;
+                                    }
                                 }
                             }
                         }
-                    }
-                    break;
+                        break;
+                }
+            }
+            else
+            {
+                return false;
             }
             return true;
         }

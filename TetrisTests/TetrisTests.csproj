@@ -52,7 +52,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BarreTests.cs" />
+    <Compile Include="CarreTests.cs" />
+    <Compile Include="LInverseeTests.cs" />
+    <Compile Include="LTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="STests.cs" />
+    <Compile Include="TTests.cs" />
+    <Compile Include="ZTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WindowsFormsApplication3\Tetris.csproj">
