@@ -30,7 +30,7 @@ namespace WindowsFormsApplication3
             initialiserPiece();
         }
 
-        public override void Tourner() // Méthode qui définit la rotation pour une pièce
+        public override void Tourner() // Méthode qui définit la rotation pour une pièce Barre
         {
                 switch (sens)
                 {
@@ -77,9 +77,10 @@ namespace WindowsFormsApplication3
                             if (j == 2)
                             {
                                 Case c = representation[j, i];
-                                if(c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
+                                // Si la pièce dépasse du plateau ou que le jeu est en pause
+                                if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
-                                    return false;
+                                    return false; // Alors on peux pas tourner
                                 }
                             }
                         }

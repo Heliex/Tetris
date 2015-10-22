@@ -36,7 +36,7 @@ namespace WindowsFormsApplication3
 
         public override bool peuxTourner(int direction)
         {
-            return true;
+            return true; // Le carré n'a pas besoin d'être tourné
         }
         public void initialiserPiece() // Dessine la piece au départ
         {

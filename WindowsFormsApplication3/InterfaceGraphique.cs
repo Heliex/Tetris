@@ -38,6 +38,7 @@ namespace WindowsFormsApplication3
             KeyDown += new KeyEventHandler(MyKeyPressedEventHandler); // Gestion d'evenement pour une touche pressée
             //new Debug(jeu).Show(); // Interface de debug (a commenté si non voulue)
             panel1.BackgroundImage = Image.FromFile("Images/fondTetris.jpg"); // On set le fond du jeu
+            
         }
 
         // Cette méthode permet de rafraichir la GUI quand un evenement RafraichirGUIEvent se présente

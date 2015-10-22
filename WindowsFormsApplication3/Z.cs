@@ -2,11 +2,16 @@
 
 namespace WindowsFormsApplication3
 {
+    /**
+     *   Classe Z
+     *   Représentation de la pièce Z dans le jeu Tetris
+     *   Dernière modification : 22/10/2015 par Christophe GERARD
+     **/
     class Z : Piece
     {
         public Z()
         {
-            offsetPieceHorizontal = 6;
+            offsetPieceHorizontal = 6; // Offset pour placer la pièce au milieu de plateau
             offsetPieceVertical = 0;
             sens = 0;
             hauteurPiece = 4;
@@ -23,7 +28,7 @@ namespace WindowsFormsApplication3
             initialiserPiece();
         }
 
-        public void initialiserPiece()
+        public void initialiserPiece() // Initialisation de la pièce Z
         {
             for (int i = 0; i < hauteurPiece; i++)
             {
@@ -36,7 +41,7 @@ namespace WindowsFormsApplication3
                 }
             }
         }
-        public override bool peuxTourner(int direction)
+        public override bool peuxTourner(int direction) // Redefiniton de la méthode peux Tourner pour la pièce Z
         {
             switch (direction)
             {
@@ -48,9 +53,10 @@ namespace WindowsFormsApplication3
                             if ((i == 0 && j == 3) || (i == 1 && j > 1) || (i == 2 && j == 2))
                             {
                                 Case c = representation[j, i];
+                                // Si la pièce dépasse du plateau ou que le jeu est en pause
                                 if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
-                                    return false;
+                                    return false; // Alors on peux pas tourner
                                 }
                             }
                         }
@@ -76,7 +82,7 @@ namespace WindowsFormsApplication3
             return true;
         }
 
-        public override void Tourner()
+        public override void Tourner() // Redéfinition de la méthode tourner
         {
             switch (sens)
             {

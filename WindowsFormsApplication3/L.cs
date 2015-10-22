@@ -3,27 +3,32 @@
 
 namespace WindowsFormsApplication3
 {
+    /**
+    *   Classe L
+    *   Représente le pièce L dans le jeu Tetris
+    *   Dernière modification : 22/10/2015 par Christophe GERARD
+    **/
     public class L : Piece
     {
-        public L()
+        public L() // Constructeur de la pièce
         {
-            offsetPieceHorizontal = 6;
+            offsetPieceHorizontal = 6; // Offset pour placer la piece au milieu de l'écran au départ.
             offsetPieceVertical = 1;
-            sens = 0;
+            sens = 0; 
             hauteurPiece = 4;
             largeurPiece = 4;
-            couleur = Color.FromArgb(255, 127, 0);
+            couleur = Color.FromArgb(255, 127, 0); 
             representation = new Case[hauteurPiece, largeurPiece];
-            for (int i = 0; i < hauteurPiece; i++)
+            for (int i = 0; i < hauteurPiece; i++) // Parcours de la representation de la piece
             {
-                for (int j = 0; j < largeurPiece; j++)
+                for (int j = 0; j < largeurPiece; j++) // Création d'un tableau de case correspondant à la pièce
                 {
                     representation[j, i] = new Case(j + offsetPieceHorizontal, i + offsetPieceVertical, this);
                 }
             }
             initialiserPiece();
         }
-        public override void Tourner()
+        public override void Tourner() // Méthode tourner pour la pièce L
         {
             switch (sens)
             {
@@ -96,7 +101,7 @@ namespace WindowsFormsApplication3
             }
         }
 
-        public override bool peuxTourner(int direction)
+        public override bool peuxTourner(int direction) // Méthode peuxTourner pour la pièce L
         {
             switch (direction)
             {
@@ -108,9 +113,10 @@ namespace WindowsFormsApplication3
                             if ((i == 0 && j == 3) || (i == 1 && j > 0))
                             {
                                 Case c = representation[j, i];
+                                // Si la pièce dépasse du plateau ou que le jeu est en pause
                                 if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore ||Jeu.enPause)
                                 {
-                                    return false;
+                                    return false; // Alors on peux pas tourner
                                 }
                             }
                         }

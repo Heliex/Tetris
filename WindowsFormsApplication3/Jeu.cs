@@ -94,7 +94,8 @@ namespace WindowsFormsApplication3
             estPerdu = false;
             waveOutDevice = new WaveOut();
             audioFileReader = new AudioFileReader("Musiques/Tetris.mp3");
-            waveOutDevice.Init(audioFileReader);
+            LoopStream loop = new LoopStream(audioFileReader);
+            waveOutDevice.Init(loop);
             waveOutDevice.Play();
             for (int i = 0; i < NB_CASE_HAUTEUR; i++)
             {
@@ -147,6 +148,10 @@ namespace WindowsFormsApplication3
                     {
                         if (ligneEstComplete(plateau, i)) // Si elle est complete
                         {
+                            IWavePlayer waveOut = new WaveOut();
+                            AudioFileReader reader = new AudioFileReader("Musiques/lineComplete.mp3");
+                            waveOut.Init(reader);
+                            waveOut.Play();
                             COMPTEUR_LIGNE_COMPLETE++;
                             score += pointLigneComplete;
                             // Suppression de la ligne

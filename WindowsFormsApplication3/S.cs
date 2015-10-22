@@ -2,11 +2,16 @@
 
 namespace WindowsFormsApplication3
 {
+    /**
+      *   Classe S
+      *   Représentation de la pièce S dans le jeu Tetris
+      *   Dernière modification : 22/10/2015 par Christophe GERARD
+      **/
     class S : Piece
     {
-        public S()
+        public S() // Constructeur de la pièce S
         {
-            offsetPieceHorizontal = 6;
+            offsetPieceHorizontal = 6; // OFfset pour faire apparaitre la pièce au milieu de plateau
             offsetPieceVertical = 0;
             sens = 0;
             hauteurPiece = 4;
@@ -23,7 +28,7 @@ namespace WindowsFormsApplication3
             initialiserPiece();
         }
 
-        public void initialiserPiece()
+        public void initialiserPiece() // Dessin de la pièce au départ
         {
             for (int i = 0; i < hauteurPiece; i++)
             {
@@ -36,7 +41,7 @@ namespace WindowsFormsApplication3
                 }
             }
         }
-        public override bool peuxTourner(int direction)
+        public override bool peuxTourner(int direction) // Redéfinition de la méthode peuxTourner pour la pièce S
         {
             switch (direction)
             {
@@ -48,9 +53,10 @@ namespace WindowsFormsApplication3
                             if ((i == 0 && j == 2) || (i == 1 && j > 1) || (i == 2 && j == 3))
                             {
                                 Case c = representation[j, i];
+                                // Si la pièce dépasse du plateau ou que le jeu est en pause
                                 if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
-                                    return false;
+                                    return false; // Alors on peux pas tourner
                                 }
                             }
                         }
@@ -76,7 +82,7 @@ namespace WindowsFormsApplication3
             return true;
         }
 
-        public override void Tourner()
+        public override void Tourner() // Redéfinition de la méthode tourner pour la pièce S
         {
             switch (sens)
             {

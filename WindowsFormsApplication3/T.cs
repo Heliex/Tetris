@@ -2,14 +2,18 @@
 
 namespace WindowsFormsApplication3
 {
-
+    /**
+     *   Classe T
+     *   Représentation de la pièce T dans le jeu Tetris
+     *   Dernière modification : 22/10/2015 par Christophe GERARD
+     **/
     public class T : Piece
     {
 
-        public T()
+        public T() // Constructeur de la pièce T
         {
             sens = 0;
-            offsetPieceHorizontal = 6;
+            offsetPieceHorizontal = 6; // Ofsset pour placer la pièce au milieu de plateau à l'apparition
             offsetPieceVertical = 0;
             hauteurPiece = 4;
             largeurPiece = 4;
@@ -24,7 +28,7 @@ namespace WindowsFormsApplication3
             }
             initialiserPiece();
         }
-        public override void Tourner()
+        public override void Tourner() // Redéfinition de la méthode tourner pour la pièce T
         {
             switch (sens)
             {
@@ -97,7 +101,7 @@ namespace WindowsFormsApplication3
         }
 
 
-        public override bool peuxTourner(int direction)
+        public override bool peuxTourner(int direction) // Méthode qui détermine si le T peux tourner
         {
             switch (direction)
             {
@@ -109,9 +113,10 @@ namespace WindowsFormsApplication3
                             if ((i == 0 && j == 2) || (i == 1 && j > 0 && j < 3) || (i == 2 && j == 2))
                             {
                                 Case c = representation[j, i];
+                                // Si la pièce dépasse du plateau ou que le jeu est en pause
                                 if (c.x < 0 || c.x >= Jeu.NB_CASE_LARGEUR || c.y >= Jeu.NB_CASE_HAUTEUR || Jeu.plateau[c.x, c.y].estColore || Jeu.enPause)
                                 {
-                                    return false;
+                                    return false; // Alors on peux pas tourner
                                 }
                             }
                         }
