@@ -35,14 +35,17 @@ namespace WindowsFormsApplication3
         // Attributs evenements
         public event EventHandler<RafraichirGUIEvent> RaiseCustomEvent;
         public event EventHandler<GameOverEvent> YouGameOverEvent;
+        public event EventHandler<PieceSuivanteEvent> MyPieceSuivanteEvent;
 
         // Attributs "objets"
         public IWavePlayer waveOutDevice;
         public ArrayList pieces = new ArrayList();
         public Piece pieceCourante { get; set; }
+        public Piece pieceApres { get; set; }
         public AudioFileReader audioFileReader;
         public Random randNum;
         public ManualResetEvent resetEvent;
+
         // Dictionnaire de données pour regler la vitesse de descente selon le nombre de ligne compléte
         public Dictionary<double, int> intervalle = new Dictionary<double, int>()
         {
@@ -88,6 +91,7 @@ namespace WindowsFormsApplication3
         public Jeu() // Constructeur par défaut
         {
             // Initialisation des variables
+
             resetEvent = new ManualResetEvent(true);
             randNum = new Random();
             plateau = new Case[NB_CASE_HAUTEUR, NB_CASE_LARGEUR];
@@ -105,8 +109,17 @@ namespace WindowsFormsApplication3
                 }
             }
             pieceCourante = pieceSuivante(); // On récupére la pièce suivante
+            pieceApres = pieceSuivante(); // Déclaration de l'évenement
         }
 
+        protected virtual void OnPieceSuivanteEvent(PieceSuivanteEvent e)
+        {
+            EventHandler<PieceSuivanteEvent> handler = MyPieceSuivanteEvent;
+            if(handler != null)
+            {
+                handler(this, e);
+            }
+        }
         // Méthode qui définit l'evenement RafrachirGUI
         protected virtual void OnRaiseCustomEvent(RafraichirGUIEvent e)
         {
@@ -120,7 +133,7 @@ namespace WindowsFormsApplication3
         protected virtual void OnGameOverEvent(GameOverEvent e)
         {
             EventHandler<GameOverEvent> handler = YouGameOverEvent;
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -131,7 +144,7 @@ namespace WindowsFormsApplication3
             {
                 resetEvent.WaitOne(); // Attente d'un signal
                 double palier = Math.Round(COMPTEUR_LIGNE_COMPLETE / 10.0) * 10; // Définission du niveau
-                if(intervalle[palier] > 50) // Si le niveau est supérieur a 50ms d'intervalle
+                if (intervalle[palier] > 50) // Si le niveau est supérieur a 50ms d'intervalle
                 {
                     Thread.Sleep(intervalle[palier]); // Alors on le set avec le dictionnaire
                 }
@@ -139,8 +152,7 @@ namespace WindowsFormsApplication3
                 {
                     Thread.Sleep(50); // Sinon on le set a 50
                 }
-                
-                OnRaiseCustomEvent(new RafraichirGUIEvent()); // Rafraichissement du GUI
+
                 if (pieceCourante.PeuxDescendre()) // Si la piece peux descendre
                 {
                     pieceCourante.descendre();
@@ -166,19 +178,20 @@ namespace WindowsFormsApplication3
                 }
                 else if (gameOver()) // Sinon si gameOver
                 {
+                    pieceApres = null;
                     pieceCourante.decolorerPiece(); // On décolore la piece
                     estPerdu = true;
                     RaiseCustomEvent = null; // On supprime les evenements
                     waveOutDevice.Stop(); // On arrête la musique de Tetris
 
-                    new Task(() => 
+                    new Task(() =>
                     {
                         AudioFileReader reader = new AudioFileReader("Musiques/gameover.wav");
                         WaveOut newWaveOut = new WaveOut();
                         newWaveOut.Init(reader);
                         newWaveOut.Play();
                     }).Start(); // Et on lance de façon asynchrone la musique de gameOver
-                    
+
                     for (int i = 0; i < NB_CASE_HAUTEUR; i++)
                     {
                         for (int j = 0; j < NB_CASE_LARGEUR; j++)
@@ -210,8 +223,11 @@ namespace WindowsFormsApplication3
                             }
                         }
                     }
-                    pieceCourante = pieceSuivante(); // On génére la pièce suivante
+                    pieceCourante = pieceApres; 
+                    pieceApres = pieceSuivante();// On génére la pièce suivante
+                    OnPieceSuivanteEvent(new PieceSuivanteEvent());
                 }
+                OnRaiseCustomEvent(new RafraichirGUIEvent()); // Rafraichissement du GUI
             }
         }
 
@@ -254,11 +270,11 @@ namespace WindowsFormsApplication3
             {
                 piece = new LInversee();
             }
-            if(numPiece == 6)
+            if (numPiece == 6)
             {
                 piece = new S();
             }
-            if(numPiece == 7)
+            if (numPiece == 7)
             {
                 piece = new Z();
             }
@@ -281,14 +297,21 @@ namespace WindowsFormsApplication3
                 }
             }
             pieceCourante.draw(g); // et la méthode draw de la pièce
-
         }
 
+        public void drawNextPiece(Graphics g)
+        {
+            if(pieceApres != null)
+            {
+                pieceApres.drawNextPiece(g);
+            }
+            
+        }
         public bool gameOver() // Méthode qui définit si on est gameOver ou pas
         {
-           for(int i = 0; i < NB_CASE_LARGEUR; i++)
+            for (int i = 0; i < NB_CASE_LARGEUR; i++)
             {
-                if(plateau[i,1].estColore)
+                if (plateau[i, 1].estColore)
                 {
                     pieceCourante.decolorerPiece();
                     return true;

@@ -71,6 +71,7 @@
     <Compile Include="LInversee.cs" />
     <Compile Include="LoopStream.cs" />
     <Compile Include="Piece.cs" />
+    <Compile Include="PieceSuivanteEvent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RafraichirGUIEvent.cs" />

@@ -55,6 +55,33 @@ namespace WindowsFormsApplication3
             }
         }
 
+        public void drawNextPiece(Graphics g)
+        {
+            for(int i = 0; i < hauteurPiece; i++)
+            {
+                for(int j = 0; j < largeurPiece; j++)
+                {
+                    if(representation[j,i].estColore)
+                    {
+                        SolidBrush brush = new SolidBrush(this.couleur);
+                        g.FillRectangle(brush, new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase - (offsetPieceHorizontal * Jeu.TailleCase) + 32, representation[j, i].y * Jeu.TailleCase +32), new Size(Jeu.TailleCase, Jeu.TailleCase)));
+                        g.DrawRectangle(new Pen(Color.FromArgb(0, 0, 0)), new Rectangle(new Point(representation[j, i].x * Jeu.TailleCase - (offsetPieceHorizontal * Jeu.TailleCase)+ 32, representation[j, i].y * Jeu.TailleCase +32 ), new Size(Jeu.TailleCase, Jeu.TailleCase)));
+                    }
+                }
+            }
+        }
+
+        public Rectangle getRectangle()
+        {
+            int height = hauteurPiece * Jeu.TailleCase;
+            int width = largeurPiece * Jeu.TailleCase;
+
+            int XDepart = representation[0, 0].x * Jeu.TailleCase;
+            int YDepart = representation[0, 0].y * Jeu.TailleCase;
+
+            return new Rectangle(new Point(XDepart,YDepart),new Size(width,height));
+        }
+
         public bool PeuxDescendre() // Méthode qui definit si la pièce peut descendre
         {
             if(Jeu.plateau != null)
