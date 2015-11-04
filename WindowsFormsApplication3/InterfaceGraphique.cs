@@ -3,7 +3,6 @@ using System.Drawing;
 
 using System.Windows.Forms;
 using System.Threading;
-using System.Diagnostics;
 
 namespace WindowsFormsApplication3
 {
@@ -15,6 +14,7 @@ namespace WindowsFormsApplication3
     public partial class InterfaceGraphique : Form
     {
         Jeu jeu; // Attribut jeu
+        Thread ThreadJeu;
   
         public InterfaceGraphique()
         {
@@ -44,11 +44,13 @@ namespace WindowsFormsApplication3
             label1.TextAlign = ContentAlignment.MiddleCenter;
             label2.TextAlign = ContentAlignment.MiddleCenter;
             label2.Text = "Pièce suivante : ";
-            Thread ThreadJeu = new Thread(jeu.lancerJeu); // Nouveau Thread pour lancer le jeu (Thread Safe)
+            ThreadJeu = new Thread(jeu.lancerJeu); // Nouveau Thread pour lancer le jeu (Thread Safe)
             ThreadJeu.Start();
             jeu.RaiseCustomEvent += HandleCustomEvent; // Gestion d'evenement pour rafraichir la GUI
             jeu.YouGameOverEvent += HandleGameOverEvent; // Gestion d'evenement pour le gameOver
             jeu.MyPieceSuivanteEvent += HandlePieceSuivanteEvent;
+            jeu.MyLigneCompleteEvent += HandlerLigneCompleteEvent;
+            jeu.MyPeuxDescendreEvent += HandlerPeuxDescendreEvent;
             panel3.Paint += new PaintEventHandler(panel3_Paint);
             panel3.BackColor = Color.Black;
             KeyDown += new KeyEventHandler(MyKeyPressedEventHandler); // Gestion d'evenement pour une touche pressée
@@ -59,12 +61,55 @@ namespace WindowsFormsApplication3
         // Cette méthode permet de rafraichir la GUI quand un evenement RafraichirGUIEvent se présente
         public void HandleCustomEvent(Object sender, RafraichirGUIEvent e)
         {
+            this.Invoke(() => {
+                refreshPiece();
+            });
+        }
+
+        public void HandlerPeuxDescendreEvent(Object sender,PeuxDescendreEvent e)
+        {
             this.Invoke(() => panel1.Refresh());
+        }
+
+        public void HandlerLigneCompleteEvent(Object sender,LigneCompleteEvent e)
+        {
+            this.Invoke(() => panel1.Refresh());
+        }
+
+        public void refreshPiece()
+        {
+            int xRect = -1;
+            int yRect = -1;
+
+            int width = (Jeu.TailleCase * jeu.pieceCourante.largeurPiece) + (3*Jeu.TailleCase);
+            int height = (Jeu.TailleCase * jeu.pieceCourante.hauteurPiece) + Jeu.TailleCase;
+
+            for (int i = 0; i < jeu.pieceCourante.hauteurPiece; i++)
+            {
+                for (int j = 0; j < jeu.pieceCourante.largeurPiece; j++)
+                {
+                    if(i == 0 && j == 0)
+                    {
+                        xRect = (jeu.pieceCourante.representation[j, i].x * Jeu.TailleCase) - Jeu.TailleCase;
+                        yRect = (jeu.pieceCourante.representation[j, i].y * Jeu.TailleCase) - Jeu.TailleCase;
+                    }
+                }
+            }
+            if(xRect != - 1 && yRect != -1)
+            {
+                Rectangle rect = new Rectangle(xRect, yRect , width, height);
+                Console.WriteLine("xRect : " + xRect + " yRect : " + yRect + " width : " + width + " height : " + height);
+                panel1.Invalidate(rect);
+                panel1.Update();
+            }
         }
 
         public void HandlePieceSuivanteEvent(Object sender, PieceSuivanteEvent e)
         {
-            this.Invoke(() => panel3.Refresh());
+            this.Invoke(() => 
+            {
+               panel3.Refresh();
+            });
         }
        
         // Cette méthode affiche le gameOver lorsque l'evenement GameOverEvent se présente
@@ -109,7 +154,6 @@ namespace WindowsFormsApplication3
         // Méthode qui gére les evenement quand une touche du clavier est pressée
         public void MyKeyPressedEventHandler(Object sender, KeyEventArgs keyData)
         {
-            
             if (jeu != null)
             {
                 if (keyData.KeyCode == Keys.D || keyData.KeyCode == Keys.Right)
@@ -145,8 +189,7 @@ namespace WindowsFormsApplication3
                         jeu.score += jeu.pointDescente;
                     }
                 }
-                panel1.Refresh();
-               
+                refreshPiece();
             }
         }
 
@@ -154,15 +197,17 @@ namespace WindowsFormsApplication3
         {
             if(jeu != null)
             {
+
                 jeu.RaiseCustomEvent -= HandleCustomEvent; // On supprime les catch d'evements
                 jeu.YouGameOverEvent -= HandleGameOverEvent;
                 jeu.estPerdu = true; // Et on stoppe la boucle infinie
+                //ThreadJeu.Join();
             }
         }
 
         private void InterfaceGraphique_Load(object sender, EventArgs e)
         {
-            this.ClientSize = new Size((int)Jeu.NB_CASE_LARGEUR * Jeu.TailleCase + (jeu.pieceCourante.largeurPiece * Jeu.TailleCase + 50), (int)Jeu.NB_CASE_HAUTEUR * Jeu.TailleCase);
+            this.ClientSize = new Size((int)Jeu.NB_CASE_LARGEUR * Jeu.TailleCase + (jeu.pieceCourante.largeurPiece * Jeu.TailleCase + 50), (int)Jeu.NB_CASE_HAUTEUR * Jeu.TailleCase); // On redimensionne le client une seule fois.
         }
     }
 }

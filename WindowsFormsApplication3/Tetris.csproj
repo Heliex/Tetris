@@ -68,8 +68,10 @@
       <DependentUpon>InterfaceGraphique.cs</DependentUpon>
     </Compile>
     <Compile Include="L.cs" />
+    <Compile Include="LigneCompleteEvent.cs" />
     <Compile Include="LInversee.cs" />
     <Compile Include="LoopStream.cs" />
+    <Compile Include="PeuxDescendreEvent.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="PieceSuivanteEvent.cs" />
     <Compile Include="Program.cs" />

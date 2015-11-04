@@ -36,6 +36,8 @@ namespace WindowsFormsApplication3
         public event EventHandler<RafraichirGUIEvent> RaiseCustomEvent;
         public event EventHandler<GameOverEvent> YouGameOverEvent;
         public event EventHandler<PieceSuivanteEvent> MyPieceSuivanteEvent;
+        public event EventHandler<LigneCompleteEvent> MyLigneCompleteEvent;
+        public event EventHandler<PeuxDescendreEvent> MyPeuxDescendreEvent;
 
         // Attributs "objets"
         public IWavePlayer waveOutDevice;
@@ -120,11 +122,28 @@ namespace WindowsFormsApplication3
                 handler(this, e);
             }
         }
+        protected virtual void OnPeuxDescendreEvent(PeuxDescendreEvent e)
+        {
+            EventHandler<PeuxDescendreEvent> handler = MyPeuxDescendreEvent;
+            if(handler != null)
+            {
+                handler(this, e);
+            }
+        }
         // Méthode qui définit l'evenement RafrachirGUI
         protected virtual void OnRaiseCustomEvent(RafraichirGUIEvent e)
         {
             EventHandler<RafraichirGUIEvent> handler = RaiseCustomEvent;
             if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnLineCompleteEvent(LigneCompleteEvent e)
+        {
+            EventHandler<LigneCompleteEvent> handler = MyLigneCompleteEvent;
+            if(handler != null)
             {
                 handler(this, e);
             }
@@ -173,6 +192,7 @@ namespace WindowsFormsApplication3
                             }
                             // Décaler toutes les lignes au dessus dans le plateau
                             decalerLignesAuDessus(i);
+                            OnLineCompleteEvent(new LigneCompleteEvent());
                         }
                     }
                 }
@@ -226,6 +246,7 @@ namespace WindowsFormsApplication3
                     pieceCourante = pieceApres; 
                     pieceApres = pieceSuivante();// On génére la pièce suivante
                     OnPieceSuivanteEvent(new PieceSuivanteEvent());
+                    OnPeuxDescendreEvent(new PeuxDescendreEvent());
                 }
                 OnRaiseCustomEvent(new RafraichirGUIEvent()); // Rafraichissement du GUI
             }
