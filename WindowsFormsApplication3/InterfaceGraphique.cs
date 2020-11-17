@@ -81,7 +81,8 @@ namespace WindowsFormsApplication3
             int xRect = -1;
             int yRect = -1;
 
-            int width = (Jeu.TailleCase * jeu.pieceCourante.largeurPiece) + (3*Jeu.TailleCase);
+            // Calcul du rectangle a refresh (pour éviter de redessiner tout le plateau à chaque tour de boucle
+            int width = (Jeu.TailleCase * jeu.pieceCourante.largeurPiece)+ (3*Jeu.TailleCase);
             int height = (Jeu.TailleCase * jeu.pieceCourante.hauteurPiece) + Jeu.TailleCase;
 
             for (int i = 0; i < jeu.pieceCourante.hauteurPiece; i++)
@@ -141,8 +142,12 @@ namespace WindowsFormsApplication3
         private void panel1_Paint(object sender, PaintEventArgs e) // Méthode qui initialize le panel Graphiquement
         {
             Graphics g = e.Graphics;
-            jeu.draw(g); // Appel a la méthode draw de la classe jeu
-            label1.Text = jeu.score.ToString();
+            if (jeu != null)
+            {
+                jeu.draw(g); // Appel a la méthode draw de la classe jeu
+                label1.Text = jeu.score.ToString();
+            }
+            
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
@@ -154,6 +159,7 @@ namespace WindowsFormsApplication3
         // Méthode qui gére les evenement quand une touche du clavier est pressée
         public void MyKeyPressedEventHandler(Object sender, KeyEventArgs keyData)
         {
+
             if (jeu != null)
             {
                 if (keyData.KeyCode == Keys.D || keyData.KeyCode == Keys.Right)
@@ -174,7 +180,7 @@ namespace WindowsFormsApplication3
                 }
                 if (keyData.KeyCode == Keys.Z || keyData.KeyCode == Keys.Up)
                 {
-                    jeu.pieceCourante.Tourner(); // Rotation de la pièce courante
+                    jeu.pieceCourante.Tourner(); // Rotation de la pièce courante 
                 }
                 if (keyData.KeyCode == Keys.Escape) // Echap pour quitter le jeu
                 {

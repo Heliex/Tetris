@@ -22,3 +22,15 @@ C:\Users\Christophe\Documents\Visual Studio 2015\Projects\Tetris\WindowsFormsApp
 C:\Users\Christophe\Documents\Visual Studio 2015\Projects\Tetris\WindowsFormsApplication3\bin\Debug\NAudio.xml
 C:\Users\Christophe\Documents\Visual Studio 2015\Projects\Tetris\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.exe
 C:\Users\Christophe\Documents\Visual Studio 2015\Projects\Tetris\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.pdb
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe.config
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.pdb
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Debug.resources
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.InterfaceGraphique.resources
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Properties.Resources.resources
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\Tetris.csproj.GenerateResource.cache
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\Tetris.csproj.CoreCompileInputs.cache
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\Tetris.csproj.CopyComplete
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.exe
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.pdb
+C:\Users\chris\Source\Repos\Tetris\WindowsFormsApplication3\obj\Debug\Tetris.csprojAssemblyReference.cache

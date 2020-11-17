@@ -91,7 +91,7 @@ namespace WindowsFormsApplication3
                 {
                     for (int j = 0; j < largeurPiece; j++)
                     {
-                        if (representation[j, i].estColore) // Si la case de la représentation de la pièc est colorée
+                        if (representation[j, i].estColore) // Si la case de la représentation de la pièce est colorée
                         {
                             // Si le y de la case dépasse du plateau ou que la case du dessous est colorée
                             if (representation[j, i].y >= Jeu.NB_CASE_HAUTEUR - 1 || Jeu.plateau[representation[j, i].x, representation[j, i].y + 1].estColore || Jeu.plateau == null)
